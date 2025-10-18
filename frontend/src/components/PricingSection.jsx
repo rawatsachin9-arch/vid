@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
-import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Check } from 'lucide-react';
+import { StripeCheckout } from './StripeCheckout';
 
 export const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -23,6 +23,7 @@ export const PricingSection = () => {
       ],
       cta: 'Start Free Trial',
       popular: false,
+      enablePayment: true,
     },
     {
       name: 'Professional',
@@ -41,6 +42,7 @@ export const PricingSection = () => {
       ],
       cta: 'Get Started',
       popular: true,
+      enablePayment: true,
     },
     {
       name: 'Enterprise',
@@ -59,6 +61,7 @@ export const PricingSection = () => {
       ],
       cta: 'Contact Sales',
       popular: false,
+      enablePayment: true,
     },
   ];
 
@@ -140,13 +143,23 @@ export const PricingSection = () => {
               </CardHeader>
 
               <CardContent className="space-y-6">
-                <Button
-                  variant={plan.popular ? 'premium' : 'default'}
-                  size="lg"
-                  className="w-full"
-                >
-                  {plan.cta}
-                </Button>
+                {/* Stripe Checkout Integration */}
+                {plan.enablePayment ? (
+                  <StripeCheckout
+                    plan={plan.name}
+                    billing={isAnnual ? 'annual' : 'monthly'}
+                    buttonText={plan.cta}
+                    variant={plan.popular ? 'premium' : 'default'}
+                  />
+                ) : (
+                  <Button
+                    variant={plan.popular ? 'premium' : 'default'}
+                    size="lg"
+                    className="w-full"
+                  >
+                    {plan.cta}
+                  </Button>
+                )}
 
                 <div className="space-y-3">
                   {plan.features.map((feature, i) => (
@@ -168,9 +181,9 @@ export const PricingSection = () => {
           <p className="text-muted-foreground mb-4">
             All plans include 14-day free trial • No credit card required
           </p>
-          <Button variant="ghost" size="default">
-            Compare all features →
-          </Button>
+          <p className="text-sm text-muted-foreground">
+            🔒 Secure payments powered by Stripe
+          </p>
         </div>
       </div>
     </section>
