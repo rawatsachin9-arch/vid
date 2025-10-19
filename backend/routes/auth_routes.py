@@ -85,7 +85,7 @@ async def register(user_data: UserRegister):
 
 @router.post('/login')
 async def login(user_data: UserLogin):
-    \"\"\"Login user\"\"\"
+    """Login user"""
     # Find user
     user = await db.users.find_one({'email': user_data.email})
     if not user:
