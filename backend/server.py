@@ -59,6 +59,12 @@ app.include_router(api_router)
 # Include Stripe routes
 app.include_router(stripe_routes.router, prefix="/api/stripe", tags=["stripe"])
 
+# Include Auth routes
+app.include_router(auth_routes.router, prefix="/api/auth", tags=["authentication"])
+
+# Include Video routes
+app.include_router(video_routes.router, prefix="/api/videos", tags=["videos"])
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
