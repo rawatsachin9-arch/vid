@@ -165,7 +165,7 @@ async def get_video(video_id: str, current_user = Depends(get_current_user)):
 
 @router.delete('/video/{video_id}')
 async def delete_video(video_id: str, current_user = Depends(get_current_user)):
-    \"\"\"Delete a video\"\"\"
+    """Delete a video"""
     try:
         result = await db.videos.delete_one({'_id': ObjectId(video_id), 'user_id': str(current_user['_id'])})
         
