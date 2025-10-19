@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Menu, X, Film } from 'lucide-react';
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,7 +32,7 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shadow-md">
               <Film className="w-6 h-6 text-primary-foreground" />
             </div>
@@ -54,10 +56,10 @@ export const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" size="default">
+            <Button variant="ghost" size="default" onClick={() => navigate('/login')}>
               Login
             </Button>
-            <Button variant="premium" size="default">
+            <Button variant="premium" size="default" onClick={() => navigate('/register')}>
               Get Started Free
             </Button>
           </div>
@@ -90,10 +92,26 @@ export const Navbar = () => {
                 </a>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                <Button variant="ghost" size="default" className="w-full">
+                <Button 
+                  variant="ghost" 
+                  size="default" 
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/login');
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
                   Login
                 </Button>
-                <Button variant="premium" size="default" className="w-full">
+                <Button 
+                  variant="premium" 
+                  size="default" 
+                  className="w-full"
+                  onClick={() => {
+                    navigate('/register');
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
                   Get Started Free
                 </Button>
               </div>
