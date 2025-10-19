@@ -27,7 +27,7 @@ class ScriptGenerationRequest(BaseModel):
 
 @router.post('/generate-script')
 async def create_script(request: ScriptGenerationRequest, current_user = Depends(get_current_user)):
-    \"\"\"Generate AI script from prompt\"\"\"
+    """Generate AI script from prompt"""
     try:
         result = await generate_script(request.prompt, request.video_length)
         
