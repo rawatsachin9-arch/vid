@@ -1,5 +1,6 @@
 import React from 'react';
-import { Facebook, Twitter, Linkedin, Youtube, Instagram, Film } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Youtube, Instagram } from 'lucide-react';
+import { VideoMakerLogo, VideoMakerLogoText } from './Logo';
 
 export const Footer = () => {
   const footerLinks = {
@@ -51,13 +52,9 @@ export const Footer = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Logo and Description */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shadow-md">
-                <Film className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold font-heading gradient-text">
-                VideoMaker
-              </span>
+            <div className="flex items-center gap-3 mb-4">
+              <VideoMakerLogo />
+              <VideoMakerLogoText className="text-xl" />
             </div>
             <p className="text-sm text-muted-foreground mb-4 max-w-sm">
               Create stunning videos in minutes using the power of AI. Trusted by 10M+ creators worldwide.
