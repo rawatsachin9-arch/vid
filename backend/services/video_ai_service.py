@@ -81,7 +81,7 @@ def parse_script_into_scenes(script_text: str) -> list:
     return scenes[:10]  # Limit to 10 scenes
 
 async def search_stock_footage(query: str, count: int = 5) -> list:
-    \"\"\"Search for stock videos/images from Pexels\"\"\"
+    """Search for stock videos/images from Pexels"""
     pexels_api_key = os.getenv('PEXELS_API_KEY')
     
     if not pexels_api_key or pexels_api_key == 'your_pexels_api_key_here':
