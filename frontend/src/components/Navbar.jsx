@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Menu, X, Film } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import { VideoMakerLogo, VideoMakerLogoText } from './Logo';
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,13 +33,12 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shadow-md">
-              <Film className="w-6 h-6 text-primary-foreground" />
-            </div>
-            <span className="text-xl md:text-2xl font-bold font-heading">
-              <span className="gradient-text">VideoMaker</span>
-            </span>
+          <div 
+            className="flex items-center gap-3 cursor-pointer group" 
+            onClick={() => navigate('/')}
+          >
+            <VideoMakerLogo className="transition-transform group-hover:scale-110" />
+            <VideoMakerLogoText className="text-xl md:text-2xl" />
           </div>
 
           {/* Desktop Navigation */}
