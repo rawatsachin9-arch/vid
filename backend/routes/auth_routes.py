@@ -48,7 +48,7 @@ async def get_current_user(authorization: str = Header(None)):
 
 @router.post('/register')
 async def register(user_data: UserRegister):
-    \"\"\"Register a new user\"\"\"
+    """Register a new user"""
     # Check if user already exists
     existing_user = await db.users.find_one({'email': user_data.email})
     if existing_user:
