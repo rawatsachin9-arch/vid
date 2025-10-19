@@ -15,9 +15,20 @@ const HelpCenterPage = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="pt-24 pb-16 bg-gradient-to-b from-background to-secondary/20">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-12">
+      
+      {/* Hero with Image */}
+      <div className="pt-20 relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1646756089735-487709743361?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODF8MHwxfHNlYXJjaHwxfHx0ZWNoJTIwc3VwcG9ydCUyMGxlYXJuaW5nfGVufDB8fHx8MTc2MDg2NDgzN3ww&ixlib=rb-4.1.0&q=85"
+            alt="Tech support"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/85 to-background"></div>
+        </div>
+        
+        <div className="relative z-10 container mx-auto px-4 py-24">
+          <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
               Help <span className="gradient-text">Center</span>
             </h1>
@@ -29,11 +40,15 @@ const HelpCenterPage = () => {
               <input
                 type="text"
                 placeholder="Search for help..."
-                className="w-full pl-12 pr-4 py-3 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full pl-12 pr-4 py-3 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring bg-card"
               />
             </div>
           </div>
+        </div>
+      </div>
 
+      <div className="pb-16 bg-gradient-to-b from-background to-secondary/20">
+        <div className="container mx-auto px-4 -mt-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {categories.map((cat, i) => (
               <Card key={i} className="hover-lift cursor-pointer">

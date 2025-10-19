@@ -30,9 +30,20 @@ const CareersPage = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="pt-24 pb-16 bg-gradient-to-b from-background to-secondary/20">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-12">
+      
+      {/* Hero with Image */}
+      <div className="pt-20 relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1758611972613-3afe657c3249?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwxfHxoYXBweSUyMHdvcmtwbGFjZSUyMG9mZmljZSUyMGN1bHR1cmV8ZW58MHx8fHwxNzYwODY0ODMzfDA&ixlib=rb-4.1.0&q=85"
+            alt="Happy workplace"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/90"></div>
+        </div>
+        
+        <div className="relative z-10 container mx-auto px-4 py-24">
+          <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
               Join Our <span className="gradient-text">Team</span>
             </h1>
@@ -40,8 +51,33 @@ const CareersPage = () => {
               Help us revolutionize video creation with AI
             </p>
           </div>
+        </div>
+      </div>
+
+      <div className="pb-16 bg-gradient-to-b from-background to-secondary/20">
+        <div className="container mx-auto px-4 -mt-8">
+          {/* Culture Images */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="relative h-64 rounded-xl overflow-hidden hover-lift">
+                <img
+                  src="https://images.unsplash.com/photo-1758518731462-b2eb77e63020?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwyfHxoYXBweSUyMHdvcmtwbGFjZSUyMG9mZmljZSUyMGN1bHR1cmV8ZW58MHx8fHwxNzYwODY0ODMzfDA&ixlib=rb-4.1.0&q=85"
+                  alt="Team collaboration"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative h-64 rounded-xl overflow-hidden hover-lift">
+                <img
+                  src="https://images.unsplash.com/photo-1758518730523-c9f6336ebdae?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwzfHxoYXBweSUyMHdvcmtwbGFjZSUyMG9mZmljZSUyMGN1bHR1cmV8ZW58MHx8fHwxNzYwODY0ODMzfDA&ixlib=rb-4.1.0&q=85"
+                  alt="Office culture"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
 
           <div className="max-w-4xl mx-auto space-y-6">
+            <h2 className="text-2xl font-bold mb-6">Open Positions</h2>
             {jobs.map((job, i) => (
               <Card key={i} className="hover-lift">
                 <CardContent className="p-8">
