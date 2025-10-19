@@ -111,7 +111,7 @@ async def login(user_data: UserLogin):
 
 @router.get('/me')
 async def get_current_user_info(current_user = Depends(get_current_user)):
-    \"\"\"Get current user information\"\"\"
+    """Get current user information"""
     return {
         'id': str(current_user['_id']),
         'email': current_user['email'],
