@@ -8,10 +8,20 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="pt-24 pb-16 bg-gradient-to-b from-background to-secondary/20">
-        <div className="container mx-auto px-4">
-          {/* Hero Section */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
+      
+      {/* Hero Section with Image */}
+      <div className="pt-20 relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1670851050245-d861fd433d06?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDN8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwY29sbGFib3JhdGlvbiUyMG9mZmljZXxlbnwwfHx8fDE3NjA4NjQ4MjF8MA&ixlib=rb-4.1.0&q=85"
+            alt="Team collaboration"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/95"></div>
+        </div>
+        
+        <div className="relative z-10 container mx-auto px-4 py-24">
+          <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
               About <span className="gradient-text">VideoMaker</span>
             </h1>
@@ -19,9 +29,13 @@ const AboutPage = () => {
               We're on a mission to democratize video creation with the power of AI
             </p>
           </div>
+        </div>
+      </div>
 
+      <div className="pb-16 bg-gradient-to-b from-background to-secondary/20">
+        <div className="container mx-auto px-4">
           {/* Story Section */}
-          <div className="max-w-4xl mx-auto space-y-12">
+          <div className="max-w-4xl mx-auto space-y-12 -mt-8">
             <Card>
               <CardContent className="p-8">
                 <h2 className="text-2xl font-bold mb-4">Our Story</h2>
@@ -36,6 +50,31 @@ const AboutPage = () => {
                 </p>
               </CardContent>
             </Card>
+
+            {/* Team Images */}
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="relative h-64 rounded-xl overflow-hidden hover-lift">
+                <img
+                  src="https://images.unsplash.com/photo-1758518729685-f88df7890776?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDN8MHwxfHNlYXJjaHwyfHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwY29sbGFib3JhdGlvbiUyMG9mZmljZXxlbnwwfHx8fDE3NjA4NjQ4MjF8MA&ixlib=rb-4.1.0&q=85"
+                  alt="Team collaboration"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative h-64 rounded-xl overflow-hidden hover-lift">
+                <img
+                  src="https://images.unsplash.com/photo-1758518730178-6e237bc8b87d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDN8MHwxfHNlYXJjaHwzfHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwY29sbGFib3JhdGlvbiUyMG9mZmljZXxlbnwwfHx8fDE3NjA4NjQ4MjF8MA&ixlib=rb-4.1.0&q=85"
+                  alt="Team meeting"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative h-64 rounded-xl overflow-hidden hover-lift">
+                <img
+                  src="https://images.unsplash.com/photo-1758691737568-a1572060ce5a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDN8MHwxfHNlYXJjaHw0fHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwY29sbGFib3JhdGlvbiUyMG9mZmljZXxlbnwwfHx8fDE3NjA4NjQ4MjF8MA&ixlib=rb-4.1.0&q=85"
+                  alt="Office culture"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
 
             {/* Values */}
             <div className="grid md:grid-cols-2 gap-6">
