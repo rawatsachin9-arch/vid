@@ -1,39 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Linkedin, Youtube, Instagram } from 'lucide-react';
 import { VideoMakerLogo, VideoMakerLogoText } from './Logo';
 
 export const Footer = () => {
   const footerLinks = {
-    Features: [
-      'Script to Video',
-      'Blog to Video',
-      'Edit Video Using Text',
-      'Video Highlights',
-      'Auto Captions',
-      'API Access',
-    ],
     Resources: [
-      'Help Center',
-      'Blog',
-      'Case Studies',
-      'Video Tutorials',
-      'Community',
-      'Roadmap',
+      { label: 'Help Center', href: '/help' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Case Studies', href: '/blog' },
+      { label: 'Video Tutorials', href: '/help' },
+      { label: 'Community', href: '/blog' },
     ],
     Company: [
-      'About Us',
-      'Careers',
-      'Press',
-      'Partners',
-      'Affiliate Program',
-      'Contact',
+      { label: 'About Us', href: '/about' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'Press', href: '/about' },
+      { label: 'Partners', href: '/contact' },
+      { label: 'Contact', href: '/contact' },
     ],
     Legal: [
-      'Privacy Policy',
-      'Terms of Service',
-      'Cookie Policy',
-      'GDPR',
-      'Security',
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Security', href: '/security' },
     ],
   };
 
