@@ -51,6 +51,9 @@ async def create_checkout_session(request: Request):
         plan_config = PRICING_PLANS[plan_type][billing_period]
         price_id = plan_config['price_id']
         
+        # Get frontend URL from environment
+        frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+        
         # Create Checkout Session
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -61,8 +64,8 @@ async def create_checkout_session(request: Request):
                 },
             ],
             mode='subscription',
-            success_url=data.get('success_url', 'http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}'),
-            cancel_url=data.get('cancel_url', 'http://localhost:3000/'),
+            success_url=data.get('success_url', f'{frontend_url}/success?session_id={{CHECKOUT_SESSION_ID}}'),
+            cancel_url=data.get('cancel_url', f'{frontend_url}/'),
             customer_email=data.get('email'),
             metadata={
                 'plan': plan_type,
