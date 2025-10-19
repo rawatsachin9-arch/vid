@@ -117,7 +117,7 @@ async def create_video(request: VideoGenerationRequest, current_user = Depends(g
 
 @router.get('/my-videos')
 async def get_user_videos(current_user = Depends(get_current_user)):
-    \"\"\"Get all videos created by current user\"\"\"
+    """Get all videos created by current user"""
     videos = []
     cursor = db.videos.find({'user_id': str(current_user['_id'])}).sort('created_at', -1).limit(50)
     
