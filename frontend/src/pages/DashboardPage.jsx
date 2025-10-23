@@ -73,6 +73,28 @@ const DashboardPage = () => {
           <p className="text-muted-foreground">
             Create professional videos in minutes with AI
           </p>
+          
+          {/* Quick Action Buttons */}
+          <div className="flex gap-4 justify-center mt-6">
+            <Button
+              onClick={() => navigate('/create-video')}
+              variant="premium"
+              size="lg"
+              className="flex items-center gap-2"
+            >
+              <Video className="w-5 h-5" />
+              Create AI Video
+            </Button>
+            <Button
+              onClick={() => navigate('/video-library')}
+              variant="outline"
+              size="lg"
+              className="flex items-center gap-2"
+            >
+              <FileText className="w-5 h-5" />
+              My Videos
+            </Button>
+          </div>
         </div>
 
         {/* Video Generator Card */}
