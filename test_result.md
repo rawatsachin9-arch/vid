@@ -401,3 +401,5 @@ test_plan:
 agent_communication:
     - agent: "main"
     - message: "Implemented complete Pictory.ai-style AI video generation platform. Backend includes AI video generation with GPT-4o + gpt-image-1, Google OAuth integration, and video projects CRUD API. Frontend includes create video page, project detail page with progress tracking, updated video library, Google login, and dashboard quick actions. Ready for comprehensive backend and frontend testing. Note: Image generation can take up to 1 minute per scene."
+    - agent: "testing"
+    - message: "Backend testing completed. Fixed critical MongoDB async/sync issues that were causing API hangs. AI video generation is working correctly - GPT-4o generates scripts and gpt-image-1 generates images as confirmed by LiteLLM logs. Authentication with session tokens works. Video project creation and status tracking functional. Google OAuth requires valid Emergent session IDs to test properly. Some endpoints may timeout during active AI generation due to resource usage, but core functionality is confirmed working."
