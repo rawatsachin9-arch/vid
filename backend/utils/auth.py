@@ -45,12 +45,12 @@ def decode_access_token(token: str):
 
 # FastAPI dependency for getting current user from token or session
 from fastapi import HTTPException, Request
-from pymongo import MongoClient
+from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import timezone
 
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
 DB_NAME = os.getenv("DB_NAME", "test_database")
-_client = MongoClient(MONGO_URL)
+_client = AsyncIOMotorClient(MONGO_URL)
 _db = _client[DB_NAME]
 
 async def get_current_user_from_token(request: Request):
