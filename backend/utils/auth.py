@@ -103,7 +103,7 @@ async def get_current_user_from_token(request: Request):
     # Try to get session token from cookie
     session_token = request.cookies.get('session_token')
     if session_token:
-        session = _db.user_sessions.find_one({'session_token': session_token})
+        session = await _db.user_sessions.find_one({'session_token': session_token})
         if session:
             # Check if session expired
             expires_at = session['expires_at']
@@ -112,13 +112,13 @@ async def get_current_user_from_token(request: Request):
                 expires_at = expires_at.replace(tzinfo=timezone.utc)
             
             if expires_at < datetime.now(timezone.utc):
-                _db.user_sessions.delete_one({'session_token': session_token})
+                await _db.user_sessions.delete_one({'session_token': session_token})
                 raise HTTPException(status_code=401, detail='Session expired')
             
             # Get user
-            user = _db.users.find_one({'id': session['user_id']})
+            user = await _db.users.find_one({'id': session['user_id']})
             if not user:
-                user = _db.users.find_one({'_id': session['user_id']})
+                user = await _db.users.find_one({'_id': session['user_id']})
             
             if user:
                 return {
