@@ -15,6 +15,11 @@ const RegisterPage = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
 
+  const handleGoogleSignup = () => {
+    const redirectUrl = encodeURIComponent(`${window.location.origin}/login`);
+    window.location.href = `https://auth.emergentagent.com/?redirect=${redirectUrl}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
