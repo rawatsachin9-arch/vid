@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, Depends, Header
+from fastapi import APIRouter, HTTPException, Depends, Header, Response, Request
 from pydantic import BaseModel, EmailStr
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from utils.auth import hash_password, verify_password, create_access_token, decode_access_token
+import httpx
 
 router = APIRouter()
 
