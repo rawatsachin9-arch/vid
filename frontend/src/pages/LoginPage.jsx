@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
 import { Mail, Lock, Loader2 } from 'lucide-react';
 import { VideoMakerLogo, VideoMakerLogoText } from '../components/Logo';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
