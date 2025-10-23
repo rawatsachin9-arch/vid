@@ -13,7 +13,7 @@ router = APIRouter(prefix="/api/video", tags=["video"])
 # MongoDB connection
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
 DB_NAME = os.getenv("DB_NAME", "test_database")
-client = MongoClient(MONGO_URL)
+client = AsyncIOMotorClient(MONGO_URL)
 db = client[DB_NAME]
 
 ai_video_service = AIVideoService()
