@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 from typing import List
 import uuid
 from datetime import datetime
-from routes import stripe_routes, auth_routes, video_routes, payu_routes
+from routes import stripe_routes, auth_routes, video_routes, payu_routes, ai_video_routes
 
 
 ROOT_DIR = Path(__file__).parent
