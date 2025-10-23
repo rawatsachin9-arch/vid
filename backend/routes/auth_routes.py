@@ -226,7 +226,12 @@ async def get_session_user(request: Request):
             raise HTTPException(status_code=401, detail='Invalid session')
         
         # Check if session expired
-        if session['expires_at'] < datetime.now(timezone.utc):
+        expires_at = session['expires_at']
+        if expires_at.tzinfo is None:
+            # If stored as naive datetime, assume UTC
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
+        
+        if expires_at < datetime.now(timezone.utc):
             await db.user_sessions.delete_one({'session_token': session_token})
             raise HTTPException(status_code=401, detail='Session expired')
         
