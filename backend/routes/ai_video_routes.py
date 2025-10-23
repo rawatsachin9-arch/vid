@@ -167,7 +167,7 @@ async def get_project(project_id: str, current_user: dict = Depends(get_current_
     Get a specific video project
     """
     try:
-        project = db.video_projects.find_one({"_id": project_id, "user_id": current_user["id"]})
+        project = await db.video_projects.find_one({"_id": project_id, "user_id": current_user["id"]})
         
         if not project:
             raise HTTPException(status_code=404, detail="Project not found")
