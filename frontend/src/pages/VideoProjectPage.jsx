@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import { Navbar } from '../components/Navbar';
+import { Footer } from '../components/Footer';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
