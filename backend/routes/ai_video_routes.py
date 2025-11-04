@@ -83,7 +83,7 @@ async def generate_video_background(project_id: str, input_text: str):
             {"$set": {"status": VideoStatus.PROCESSING, "updated_at": datetime.now()}}
         )
         
-        # Generate script and scenes
+        # Generate script and scenes  
         await bg_db.video_projects.update_one(
             {"_id": project_id},
             {"$set": {"status": VideoStatus.GENERATING_SCRIPT, "updated_at": datetime.now()}}

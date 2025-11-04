@@ -4,11 +4,11 @@ import { Button } from './ui/button';
 import { Loader2 } from 'lucide-react';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 const stripePublishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
-// Initialize Stripe
-const stripePromise = loadStripe(stripePublishableKey);
+// Initialize Stripe only if publishable key is available
+const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null;
 
 export const StripeCheckout = ({ plan, billing, buttonText = 'Subscribe', variant = 'default' }) => {
   const [loading, setLoading] = useState(false);
@@ -17,6 +17,13 @@ export const StripeCheckout = ({ plan, billing, buttonText = 'Subscribe', varian
   const handleCheckout = async () => {
     setLoading(true);
     setError(null);
+
+    // Check if Stripe is configured
+    if (!stripePromise) {
+      setError('Stripe is not configured. Please add your Stripe publishable key to the .env file.');
+      setLoading(false);
+      return;
+    }
 
     try {
       const stripe = await stripePromise;

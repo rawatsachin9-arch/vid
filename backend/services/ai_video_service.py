@@ -3,21 +3,14 @@ import json
 import base64
 from typing import List, Dict
 from dotenv import load_dotenv
-from emergentintegrations.llm.chat import LlmChat, UserMessage
-from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
+from openai import OpenAI
 
 load_dotenv()
 
 class AIVideoService:
     def __init__(self):
-        self.api_key = os.getenv("EMERGENT_LLM_KEY", "")
-        self.llm_chat = LlmChat(
-            api_key=self.api_key,
-            session_id="video_generation",
-            system_message="You are an expert video script writer and scene designer. You break down text into engaging visual scenes perfect for video creation."
-        ).with_model("openai", "gpt-4o")
-        
-        self.image_gen = OpenAIImageGeneration(api_key=self.api_key)
+        self.api_key = os.getenv("OPENAI_API_KEY", "")
+        self.client = OpenAI(api_key=self.api_key)
     
     async def generate_script_scenes(self, input_text: str, num_scenes: int = 5) -> List[Dict]:
         """
@@ -48,13 +41,21 @@ class AIVideoService:
         Make the scenes flow naturally and tell a cohesive story. Each scene should be visually distinct.
         """
         
-        user_message = UserMessage(text=prompt)
-        response = await self.llm_chat.send_message(user_message)
+        response = self.client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are an expert video script writer and scene designer. You break down text into engaging visual scenes perfect for video creation."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,
+            max_tokens=2000
+        )
+        
+        response_text = response.choices[0].message.content
         
         # Parse the JSON response
         try:
             # Extract JSON from the response (handle markdown code blocks)
-            response_text = response.strip()
             if "```json" in response_text:
                 response_text = response_text.split("```json")[1].split("```")[0].strip()
             elif "```" in response_text:
@@ -64,30 +65,29 @@ class AIVideoService:
             return scenes
         except json.JSONDecodeError as e:
             print(f"Error parsing JSON response: {e}")
-            print(f"Raw response: {response}")
+            print(f"Raw response: {response_text}")
             raise ValueError(f"Failed to parse AI response as JSON: {str(e)}")
     
     async def generate_image_for_scene(self, image_prompt: str) -> str:
         """
-        Generate an image for a scene using gpt-image-1
-        Returns base64 encoded image
+        Generate an image for a scene using DALL-E 3
+        Returns image URL
         """
         try:
-            images = await self.image_gen.generate_images(
+            response = self.client.images.generate(
+                model="dall-e-3",
                 prompt=image_prompt,
-                model="gpt-image-1",
-                number_of_images=1
+                size="1024x1024",
+                quality="standard",
+                n=1,
             )
             
-            if images and len(images) > 0:
-                # Convert to base64
-                image_base64 = base64.b64encode(images[0]).decode('utf-8')
-                return f"data:image/png;base64,{image_base64}"
-            else:
-                raise Exception("No image was generated")
+            image_url = response.data[0].url
+            return image_url
         except Exception as e:
             print(f"Error generating image: {e}")
-            raise
+            # Return a placeholder image if generation fails
+            return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Generation+Failed"
     
     async def generate_all_scene_images(self, scenes: List[Dict]) -> List[Dict]:
         """

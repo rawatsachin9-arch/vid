@@ -50,39 +50,69 @@ async def get_current_user(authorization: str = Header(None)):
 @router.post('/register')
 async def register(user_data: UserRegister):
     """Register a new user"""
-    # Check if user already exists
-    existing_user = await db.users.find_one({'email': user_data.email})
-    if existing_user:
-        raise HTTPException(status_code=400, detail='Email already registered')
-    
-    # Create new user
-    hashed_password = hash_password(user_data.password)
-    
-    new_user = {
-        'email': user_data.email,
-        'name': user_data.name,
-        'password': hashed_password,
-        'subscription_plan': 'free',
-        'videos_created': 0,
-        'created_at': datetime.utcnow().isoformat(),
-        'updated_at': datetime.utcnow().isoformat()
-    }
-    
-    result = await db.users.insert_one(new_user)
-    
-    # Create access token
-    access_token = create_access_token(data={'sub': user_data.email})
-    
-    return {
-        'access_token': access_token,
-        'token_type': 'bearer',
-        'user': {
-            'id': str(result.inserted_id),
+    try:
+        print(f"🔍 Registration attempt - Received user_data: {user_data}")
+        print(f"📧 Email: {user_data.email}")
+        print(f"👤 Name: {user_data.name}")
+        print(f"🔒 Password length: {len(user_data.password)}")
+        
+        # Check if user already exists
+        print(f"🔍 Checking if user exists with email: {user_data.email}")
+        existing_user = await db.users.find_one({'email': user_data.email})
+        
+        if existing_user:
+            print(f"❌ User already exists: {existing_user}")
+            raise HTTPException(status_code=400, detail='Email already registered')
+        
+        print("✅ User doesn't exist, proceeding with registration")
+        
+        # Create new user
+        print("🔒 Hashing password...")
+        hashed_password = hash_password(user_data.password)
+        print("✅ Password hashed successfully")
+        
+        new_user = {
             'email': user_data.email,
             'name': user_data.name,
-            'subscription_plan': 'free'
+            'password': hashed_password,
+            'subscription_plan': 'free',
+            'videos_created': 0,
+            'created_at': datetime.utcnow().isoformat(),
+            'updated_at': datetime.utcnow().isoformat()
         }
-    }
+        
+        print(f"💾 Inserting new user into database: {new_user}")
+        result = await db.users.insert_one(new_user)
+        print(f"✅ User inserted with ID: {result.inserted_id}")
+        
+        # Create access token
+        print("🎫 Creating access token...")
+        access_token = create_access_token(data={'sub': user_data.email})
+        print("✅ Access token created successfully")
+        
+        response_data = {
+            'access_token': access_token,
+            'token_type': 'bearer',
+            'user': {
+                'id': str(result.inserted_id),
+                'email': user_data.email,
+                'name': user_data.name,
+                'subscription_plan': 'free'
+            }
+        }
+        
+        print(f"🎉 Registration successful, returning: {response_data}")
+        return response_data
+        
+    except HTTPException as e:
+        print(f"❌ HTTP Exception during registration: {e.detail}")
+        raise e
+    except Exception as e:
+        print(f"💥 Unexpected error during registration: {str(e)}")
+        print(f"Error type: {type(e)}")
+        import traceback
+        print(f"Traceback: {traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=f'Registration failed: {str(e)}')
 
 @router.post('/login')
 async def login(user_data: UserLogin):
