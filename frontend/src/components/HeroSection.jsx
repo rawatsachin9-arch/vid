@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Play, Sparkles, Video, X } from 'lucide-react';
+import { Play, Sparkles, Video, X, Zap, TrendingUp, Award } from 'lucide-react';
 
 export const HeroSection = () => {
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const navigate = useNavigate();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background pt-20">
-      {/* Decorative elements */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/* Animated Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-violet-900 to-blue-900"></div>
+      
+      {/* Animated Mesh Gradient Overlay */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+      </div>
+
+      {/* Grid Pattern Overlay */}
+      <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid"></div>
+      
+      {/* Floating Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-20 left-10 w-2 h-2 bg-white/20 rounded-full animate-float"></div>
+        <div className="absolute top-40 right-20 w-3 h-3 bg-purple-400/30 rounded-full animate-float animation-delay-1000"></div>
+        <div className="absolute bottom-40 left-1/4 w-2 h-2 bg-pink-400/30 rounded-full animate-float animation-delay-2000"></div>
+        <div className="absolute bottom-20 right-1/3 w-3 h-3 bg-blue-400/30 rounded-full animate-float animation-delay-3000"></div>
       </div>
 
       <div className="container mx-auto px-4 py-12 md:py-20 relative z-10">
