@@ -18,6 +18,11 @@ const LoginPage = () => {
   const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
+  // Check for redirect params
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectTo = urlParams.get('redirect');
+  const planFromUrl = urlParams.get('plan');
+
   // Check for session_id in URL fragment (from Google OAuth)
   useEffect(() => {
     const hash = window.location.hash;
