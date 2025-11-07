@@ -36,11 +36,26 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <div 
-            className="flex items-center gap-3 cursor-pointer group" 
+            className="flex items-center gap-2 cursor-pointer group" 
             onClick={() => navigate('/')}
           >
-            <VideoMakerLogo className="transition-transform group-hover:scale-110" />
-            <VideoMakerLogoText className="text-xl md:text-2xl" />
+            {/* Professional Logo Icon */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl blur-md opacity-50 group-hover:opacity-75 transition-opacity"></div>
+              <div className="relative bg-gradient-to-br from-purple-600 via-violet-600 to-pink-600 p-2 rounded-xl group-hover:scale-110 transition-transform">
+                <Play className="w-5 h-5 text-white fill-white" />
+              </div>
+            </div>
+            
+            {/* Brand Name */}
+            <div className="flex flex-col">
+              <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                VideoAI
+              </span>
+              <span className="text-[8px] tracking-wider text-gray-500 font-medium -mt-1">
+                AI POWERED
+              </span>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
