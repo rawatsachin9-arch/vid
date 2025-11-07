@@ -85,8 +85,14 @@ class AIVideoService:
             )
             
             if images and len(images) > 0:
-                # Convert image bytes to base64
-                image_base64 = base64.b64encode(images[0]).decode('utf-8')
+                # Handle dict response from emergentintegrations
+                if isinstance(images[0], dict) and 'b64_json' in images[0]:
+                    # Already base64 encoded
+                    image_base64 = images[0]['b64_json']
+                else:
+                    # Raw bytes, need to encode
+                    image_base64 = base64.b64encode(images[0]).decode('utf-8')
+                
                 # Return as data URL
                 image_data_url = f"data:image/png;base64,{image_base64}"
                 return image_data_url
