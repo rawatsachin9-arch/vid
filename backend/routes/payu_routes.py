@@ -11,6 +11,12 @@ load_dotenv()
 
 router = APIRouter()
 
+# MongoDB connection
+MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+DB_NAME = os.getenv("DB_NAME", "test_database")
+client = AsyncIOMotorClient(MONGO_URL)
+db = client[DB_NAME]
+
 # PayU Configuration
 PAYU_MERCHANT_KEY = os.getenv('PAYU_MERCHANT_KEY')
 PAYU_MERCHANT_SALT = os.getenv('PAYU_MERCHANT_SALT')
