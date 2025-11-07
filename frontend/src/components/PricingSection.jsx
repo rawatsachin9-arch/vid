@@ -195,10 +195,26 @@ export const PricingSection = () => {
             All plans include 14-day free trial • No credit card required
           </p>
           <p className="text-sm text-muted-foreground">
-            🔒 Secure payments powered by Stripe
+            🔒 Secure payments powered by PayU
           </p>
         </div>
       </div>
+
+      {/* PayU Checkout Modal */}
+      {showCheckout && selectedPlan && (
+        <PayUCheckout
+          plan={selectedPlan}
+          billing={isAnnual ? 'annual' : 'monthly'}
+          onSuccess={() => {
+            setShowCheckout(false);
+            // Handle success - redirect to dashboard or show success message
+          }}
+          onCancel={() => {
+            setShowCheckout(false);
+            setSelectedPlan(null);
+          }}
+        />
+      )}
     </section>
   );
 };
