@@ -3,14 +3,14 @@ import json
 import base64
 from typing import List, Dict
 from dotenv import load_dotenv
-from emergentintegrations import EmergentLLM
+from openai import OpenAI
 
 load_dotenv()
 
 class AIVideoService:
     def __init__(self):
         self.emergent_key = os.getenv("EMERGENT_LLM_KEY", "")
-        self.client = EmergentLLM(api_key=self.emergent_key)
+        self.client = OpenAI(api_key=self.emergent_key)
     
     async def generate_script_scenes(self, input_text: str, num_scenes: int = 5) -> List[Dict]:
         """
