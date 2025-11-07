@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+// Use empty string for relative URLs (same domain)
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 const CreateVideoPage = () => {
   const navigate = useNavigate();
@@ -20,16 +21,22 @@ const CreateVideoPage = () => {
     setError('');
 
     try {
-      // Get token from localStorage or cookie
-      const token = localStorage.getItem('access_token');
+      // Get token from localStorage (JWT auth)
+      const token = localStorage.getItem('token');
+      
+      const headers = {
+        'Content-Type': 'application/json'
+      };
+      
+      // Add token if available (for JWT auth)
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
       
       const response = await fetch(`${BACKEND_URL}/api/video/generate`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        credentials: 'include',
+        headers: headers,
+        credentials: 'include', // Important for session cookie auth
         body: JSON.stringify(formData)
       });
 
