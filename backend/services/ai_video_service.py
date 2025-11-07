@@ -3,18 +3,14 @@ import json
 import base64
 from typing import List, Dict
 from dotenv import load_dotenv
-import litellm
+from emergentintegrations import EmergentLLM
 
 load_dotenv()
 
-# Configure LiteLLM to use Emergent LLM Key
-litellm.api_key = os.getenv("EMERGENT_LLM_KEY", "")
-litellm.drop_params = True  # Drop unsupported params
-
 class AIVideoService:
     def __init__(self):
-        self.api_key = os.getenv("EMERGENT_LLM_KEY", "")
-        # No client initialization needed for litellm
+        self.emergent_key = os.getenv("EMERGENT_LLM_KEY", "")
+        self.client = EmergentLLM(api_key=self.emergent_key)
     
     async def generate_script_scenes(self, input_text: str, num_scenes: int = 5) -> List[Dict]:
         """
