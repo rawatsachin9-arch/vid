@@ -27,8 +27,33 @@ async def create_video_project(
 ):
     """
     Create a new video project and start AI generation
+    Checks subscription limits before creating
     """
     try:
+        # Get user's subscription plan
+        user = await db.users.find_one({'email': current_user['email']})
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        subscription_plan = user.get('subscription_plan', 'free')
+        
+        # Count videos created this month
+        from datetime import datetime
+        current_month_start = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        videos_this_month = await db.video_projects.count_documents({
+            'user_id': current_user['id'],
+            'created_at': {'$gte': current_month_start}
+        })
+        
+        # Check video limit
+        can_create, remaining = check_video_limit(subscription_plan, videos_this_month)
+        if not can_create:
+            plan_info = get_plan_limits(subscription_plan)
+            raise HTTPException(
+                status_code=403, 
+                detail=f"Video limit reached. Your {subscription_plan.title()} plan allows {plan_info['video_limit']} videos per month. Upgrade to create more videos."
+            )
+        
         # Create project ID
         project_id = str(uuid.uuid4())
         
@@ -43,6 +68,8 @@ async def create_video_project(
             "video_url": None,
             "thumbnail_url": None,
             "duration": 0,
+            "subscription_plan": subscription_plan,
+            "videos_remaining": remaining - 1,
             "created_at": datetime.now(),
             "updated_at": datetime.now(),
             "error_message": None
@@ -52,7 +79,7 @@ async def create_video_project(
         await db.video_projects.insert_one(video_project)
         
         # Start background task for video generation
-        background_tasks.add_task(generate_video_background, project_id, project.input_text)
+        background_tasks.add_task(generate_video_background, project_id, project.input_text, subscription_plan)
         
         return VideoProjectResponse(
             id=project_id,
@@ -66,6 +93,8 @@ async def create_video_project(
             created_at=video_project["created_at"],
             updated_at=video_project["updated_at"]
         )
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create video project: {str(e)}")
 
