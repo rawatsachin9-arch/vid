@@ -75,16 +75,14 @@ class AIVideoService:
     
     async def generate_image_for_scene(self, image_prompt: str) -> str:
         """
-        Generate an image for a scene using DALL-E 3
+        Generate an image for a scene using gpt-image-1
         Returns image URL
         """
         try:
-            response = self.client.images.generate(
-                model="dall-e-3",
+            response = litellm.image_generation(
+                model="gpt-image-1",
                 prompt=image_prompt,
-                size="1024x1024",
-                quality="standard",
-                n=1,
+                api_key=self.api_key
             )
             
             image_url = response.data[0].url
