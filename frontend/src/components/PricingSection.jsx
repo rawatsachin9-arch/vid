@@ -187,14 +187,21 @@ export const PricingSection = () => {
               <CardContent className="space-y-6">
                 {/* PayU Checkout Integration */}
                 {plan.enablePayment ? (
-                  <Button
-                    variant={plan.popular ? 'premium' : 'default'}
-                    size="lg"
-                    className="w-full"
-                    onClick={() => handlePlanSelect(plan.name)}
-                  >
-                    {plan.cta}
-                  </Button>
+                  <>
+                    <Button
+                      variant={plan.popular ? 'premium' : 'default'}
+                      size="lg"
+                      className="w-full"
+                      onClick={() => handlePlanSelect(plan.name)}
+                    >
+                      {isAuthenticated ? plan.cta : 'Login to Subscribe'}
+                    </Button>
+                    {!isAuthenticated && (
+                      <p className="text-xs text-center text-muted-foreground">
+                        You'll be redirected to login first
+                      </p>
+                    )}
+                  </>
                 ) : (
                   <Button
                     variant={plan.popular ? 'premium' : 'default'}
