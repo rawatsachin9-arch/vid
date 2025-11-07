@@ -43,6 +43,10 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             
+            {/* Payment Pages */}
+            <Route path="/payment-success" element={<PaymentSuccessPage />} />
+            <Route path="/payment-failure" element={<PaymentFailurePage />} />
+            
             {/* Dashboard */}
             <Route 
               path="/dashboard" 
