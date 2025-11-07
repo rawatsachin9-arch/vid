@@ -47,14 +47,17 @@ const VideoLibraryPage = () => {
     if (!window.confirm('Are you sure you want to delete this project?')) return;
 
     try {
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem('token');
+      
+      const headers = {};
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
       
       const response = await fetch(`${BACKEND_URL}/api/video/projects/${projectId}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        credentials: 'include'
+        headers: headers,
+        credentials: 'include' // Important for session cookie auth
       });
 
       if (!response.ok) {
