@@ -73,12 +73,33 @@ export const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" size="default" onClick={() => navigate('/login')}>
-              Login
-            </Button>
-            <Button variant="premium" size="default" onClick={() => navigate('/register')}>
-              Get Started Free
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <Button variant="ghost" size="default" onClick={() => navigate('/dashboard')}>
+                  Dashboard
+                </Button>
+                <Button variant="outline" size="default" onClick={() => {
+                  logout();
+                  navigate('/');
+                }}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" size="default" onClick={() => navigate('/login')}>
+                  Sign In
+                </Button>
+                <Button 
+                  variant="premium" 
+                  size="default" 
+                  onClick={() => navigate('/register')}
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                >
+                  Get Started
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
