@@ -98,15 +98,20 @@ async def create_video_project(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create video project: {str(e)}")
 
-async def generate_video_background(project_id: str, input_text: str):
+async def generate_video_background(project_id: str, input_text: str, subscription_plan: str = 'free'):
     """
     Background task to generate video scenes and images
+    Enforces duration limits based on subscription plan
     """
     # Create async MongoDB client for background task
     bg_client = AsyncIOMotorClient(MONGO_URL)
     bg_db = bg_client[DB_NAME]
     
     try:
+        # Get plan limits
+        plan_limits = get_plan_limits(subscription_plan)
+        max_duration = plan_limits['max_duration'] if plan_limits else 60
+        
         # Update status to processing
         await bg_db.video_projects.update_one(
             {"_id": project_id},
