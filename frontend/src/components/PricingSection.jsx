@@ -1,16 +1,31 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Check } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import PayUCheckout from './PayUCheckout';
 
 export const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const handlePlanSelect = (planName) => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      // Store selected plan in localStorage
+      localStorage.setItem('selectedPlan', planName.toLowerCase());
+      localStorage.setItem('selectedBilling', isAnnual ? 'annual' : 'monthly');
+      // Redirect to login with return URL
+      navigate('/login?redirect=pricing&plan=' + planName.toLowerCase());
+      return;
+    }
+    
+    // User is authenticated, show checkout
     setSelectedPlan(planName.toLowerCase());
     setShowCheckout(true);
   };
