@@ -247,3 +247,48 @@ async def delete_project(project_id: str, current_user: dict = Depends(get_curre
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete project: {str(e)}")
+
+
+@router.get("/subscription-info")
+async def get_subscription_info(current_user: dict = Depends(get_current_user_from_token)):
+    """
+    Get user's subscription information and usage stats
+    """
+    try:
+        # Get user data
+        user = await db.users.find_one({'email': current_user['email']})
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        subscription_plan = user.get('subscription_plan', 'free')
+        
+        # Get plan limits
+        plan_limits = get_plan_limits(subscription_plan)
+        if not plan_limits:
+            raise HTTPException(status_code=404, detail="Plan not found")
+        
+        # Count videos created this month
+        current_month_start = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        videos_this_month = await db.video_projects.count_documents({
+            'user_id': current_user['id'],
+            'created_at': {'$gte': current_month_start}
+        })
+        
+        # Calculate remaining videos
+        remaining_videos = max(0, plan_limits['video_limit'] - videos_this_month)
+        
+        return {
+            'subscription_plan': subscription_plan,
+            'plan_name': plan_limits['name'],
+            'video_limit': plan_limits['video_limit'],
+            'videos_created_this_month': videos_this_month,
+            'videos_remaining': remaining_videos,
+            'max_duration_seconds': plan_limits['max_duration'],
+            'max_duration_minutes': plan_limits['max_duration'] / 60,
+            'features': plan_limits['features'],
+            'usage_percentage': (videos_this_month / plan_limits['video_limit']) * 100 if plan_limits['video_limit'] > 0 else 0
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get subscription info: {str(e)}")
