@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Create a Pictory.ai-style AI video generation platform with Text-to-Video feature using OpenAI (GPT-4o for text, gpt-image-1 for images), Emergent LLM Key, and both JWT + Google Social Login authentication."
+user_problem_statement: "Create a Pictory.ai-style AI video generation platform with Text-to-Video feature using OpenAI (GPT-4o for text, gpt-image-1 for images), Emergent LLM Key, JWT + Google Social Login authentication, and PayU payment integration (Stripe removed)."
 
 frontend:
   - task: "Navigation Testing"
