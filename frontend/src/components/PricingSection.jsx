@@ -7,6 +7,13 @@ import PayUCheckout from './PayUCheckout';
 
 export const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+
+  const handlePlanSelect = (planName) => {
+    setSelectedPlan(planName.toLowerCase());
+    setShowCheckout(true);
+  };
 
   const plans = [
     {
