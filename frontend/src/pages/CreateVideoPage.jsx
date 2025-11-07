@@ -42,7 +42,8 @@ const CreateVideoPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create video project');
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to create video project');
       }
 
       const data = await response.json();
