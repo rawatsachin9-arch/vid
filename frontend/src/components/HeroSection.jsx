@@ -35,41 +35,56 @@ export const HeroSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8 animate-fadeInUp">
-            <Badge variant="premium" className="text-sm px-4 py-1">
-              <Sparkles className="w-4 h-4 mr-2" />
-              AI-Powered Video Creation
-            </Badge>
+            {/* Premium Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white">
+              <Sparkles className="w-4 h-4 text-yellow-400" />
+              <span className="text-sm font-medium">Powered by Advanced AI</span>
+              <Zap className="w-4 h-4 text-yellow-400" />
+            </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading leading-tight">
-              Create Professional Videos
+            {/* Main Heading */}
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-white">
+              Create Stunning
               <br />
-              in{' '}
-              <span className="gradient-text">Minutes!</span>
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent animate-gradient">
+                AI Videos
+              </span>
+              <br />
+              <span className="text-4xl sm:text-5xl lg:text-6xl">in Seconds</span>
             </h1>
 
-            <p className="text-lg text-muted-foreground max-w-xl">
-              Transform your ideas into stunning videos with AI. No editing experience needed - just upload your content and let VideoMaker do the magic.
+            {/* Subheading */}
+            <p className="text-xl text-gray-300 max-w-xl leading-relaxed">
+              Transform your text into professional videos with AI-powered scene generation, images, and narration. No video editing skills required.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="premium" size="xl" className="group">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Button 
+                size="xl" 
+                onClick={() => navigate('/register')}
+                className="group bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-2xl shadow-purple-500/50 hover:shadow-purple-500/70 transition-all"
+              >
+                <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                 Start Creating Free
-                <Play className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button 
-                variant="hero" 
                 size="xl"
+                variant="outline"
                 onClick={() => setShowVideoModal(true)}
+                className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20"
               >
                 <Video className="w-5 h-5 mr-2" />
                 Watch Demo
               </Button>
             </div>
 
-            <p className="text-sm text-muted-foreground">
-              No credit card required • 3 free videos to start
-            </p>
+            {/* Trust Indicators */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-2">
+              <p className="text-sm text-gray-400">
+                ✨ No credit card required • Start with 5 free videos
+              </p>
+            </div>
 
             {/* Trust Badges */}
             <div className="flex flex-wrap items-center gap-6 pt-4">
