@@ -16,7 +16,7 @@ class AIVideoService:
     
     async def generate_script_scenes(self, input_text: str, num_scenes: int = 5) -> List[Dict]:
         """
-        Generate video scenes from input text using GPT-4o
+        Generate video scenes from input text using GPT-4o via Emergent LLM Key
         """
         prompt = f"""
         Convert the following text into {num_scenes} engaging video scenes. For each scene, provide:
@@ -43,15 +43,16 @@ class AIVideoService:
         Make the scenes flow naturally and tell a cohesive story. Each scene should be visually distinct.
         """
         
-        response = self.client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "You are an expert video script writer and scene designer. You break down text into engaging visual scenes perfect for video creation."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.7,
-            max_tokens=2000
-        )
+        # Initialize chat with system message
+        chat = LlmChat(
+            api_key=self.api_key,
+            session_id="video_script_generation",
+            system_message="You are an expert video script writer and scene designer. You break down text into engaging visual scenes perfect for video creation."
+        ).with_model("openai", "gpt-4o")
+        
+        # Send message
+        user_message = UserMessage(text=prompt)
+        response = await chat.send_message(user_message)
         
         response_text = response.choices[0].message.content
         
