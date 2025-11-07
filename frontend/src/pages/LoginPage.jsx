@@ -48,8 +48,20 @@ const LoginPage = () => {
       // Clean up URL
       window.location.hash = '';
       
-      // Navigate to dashboard
-      navigate('/dashboard');
+      // Check if there's a redirect
+      if (redirectTo === 'pricing') {
+        const plan = localStorage.getItem('selectedPlan');
+        const billing = localStorage.getItem('selectedBilling');
+        if (plan) {
+          localStorage.removeItem('selectedPlan');
+          localStorage.removeItem('selectedBilling');
+          window.location.href = '/#pricing?showCheckout=true&plan=' + plan + '&billing=' + billing;
+        } else {
+          navigate('/#pricing');
+        }
+      } else {
+        navigate('/dashboard');
+      }
     } else {
       setError(result.error);
       setGoogleLoading(false);
