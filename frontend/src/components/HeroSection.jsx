@@ -86,24 +86,19 @@ export const HeroSection = () => {
               </p>
             </div>
 
-            {/* Trust Badges */}
-            <div className="flex flex-wrap items-center gap-6 pt-4">
-              <div className="flex items-center gap-2">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className="w-5 h-5 text-yellow-400 fill-current"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                    </svg>
-                  ))}
-                </div>
-                <span className="text-sm font-semibold">4.8/5.0</span>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-6 pt-6">
+              <div className="text-center sm:text-left">
+                <div className="text-3xl font-bold text-white mb-1">10K+</div>
+                <div className="text-sm text-gray-400">Videos Created</div>
               </div>
-              <div className="text-sm text-muted-foreground">
-                Trusted by <span className="font-semibold text-foreground">10M+</span> creators
+              <div className="text-center sm:text-left">
+                <div className="text-3xl font-bold text-white mb-1">4.9★</div>
+                <div className="text-sm text-gray-400">User Rating</div>
+              </div>
+              <div className="text-center sm:text-left">
+                <div className="text-3xl font-bold text-white mb-1">5K+</div>
+                <div className="text-sm text-gray-400">Happy Users</div>
               </div>
             </div>
           </div>
