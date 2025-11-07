@@ -53,8 +53,11 @@ export const PricingSection = () => {
       priceMonthly: 100,
       priceAnnual: 1000,
       currency: '₹',
+      videoLimit: 5,
+      maxDuration: 60, // 1 minute in seconds
       features: [
-        '10 videos per month',
+        '5 videos per month',
+        'Max 1 minute per video',
         'Text to video generation',
         'AI voiceovers (5 languages)',
         'HD 1080p exports',
@@ -71,8 +74,11 @@ export const PricingSection = () => {
       priceMonthly: 1000,
       priceAnnual: 10000,
       currency: '₹',
+      videoLimit: 15,
+      maxDuration: 300, // 5 minutes in seconds
       features: [
-        'Unlimited videos',
+        '15 videos per month',
+        'Max 5 minutes per video',
         'All AI features included',
         'AI voiceovers (29+ languages)',
         '4K exports',
@@ -91,7 +97,11 @@ export const PricingSection = () => {
       priceMonthly: 1500,
       priceAnnual: 15000,
       currency: '₹',
+      videoLimit: 20,
+      maxDuration: 1800, // 30 minutes in seconds
       features: [
+        '20 videos per month',
+        'Max 30 minutes per video',
         'Everything in Professional',
         'Unlimited team members',
         'API access',
