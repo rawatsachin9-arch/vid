@@ -106,7 +106,31 @@ async def verify_payu_payment(request: Request):
         
         received_hash = data.get('hash')
         
-        if generated_hash == received_hash:
+        if generated_hash == received_hash and status == 'success':
+            # Update user's subscription plan
+            plan_name = productinfo.split('-')[0].lower()  # Extract plan from productinfo
+            
+            # Update user in database
+            result = await db.users.update_one(
+                {'email': email},
+                {
+                    '$set': {
+                        'subscription_plan': plan_name,
+                        'subscription_status': 'active',
+                        'subscription_updated_at': datetime.utcnow(),
+                        'updated_at': datetime.utcnow()
+                    }
+                }
+            )
+            
+            return {
+                'success': True,
+                'verified': True,
+                'status': status,
+                'txnid': txnid,
+                'subscription_updated': result.modified_count > 0
+            }
+        elif generated_hash == received_hash:
             return {
                 'success': True,
                 'verified': True,
