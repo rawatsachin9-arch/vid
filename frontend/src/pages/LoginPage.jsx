@@ -69,7 +69,25 @@ const LoginPage = () => {
     const result = await login(email, password);
     
     if (result.success) {
-      navigate('/dashboard');
+      // Check if there's a redirect
+      if (redirectTo === 'pricing') {
+        // Redirect to home with hash to pricing section
+        navigate('/#pricing');
+        // Trigger checkout modal after navigation
+        setTimeout(() => {
+          const plan = localStorage.getItem('selectedPlan');
+          const billing = localStorage.getItem('selectedBilling');
+          if (plan) {
+            // Clear stored plan
+            localStorage.removeItem('selectedPlan');
+            localStorage.removeItem('selectedBilling');
+            // Reload to trigger checkout - page will handle this
+            window.location.href = '/#pricing?showCheckout=true&plan=' + plan + '&billing=' + billing;
+          }
+        }, 100);
+      } else {
+        navigate('/dashboard');
+      }
     } else {
       setError(result.error);
     }
