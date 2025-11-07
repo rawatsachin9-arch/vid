@@ -339,6 +339,9 @@ backend:
         - working: true
         - agent: "testing"
         - comment: "✅ Video Projects CRUD API working. POST /api/video/generate creates projects successfully. GET /api/video/projects/{id} retrieves project status correctly. Note: During active AI generation, some endpoints may timeout due to resource usage, but core functionality is working. Fixed async MongoDB operations throughout the codebase."
+        - working: true
+        - agent: "testing"
+        - comment: "✅ Video Projects CRUD API fully tested with JWT authentication. GET /api/video/projects/{project_id} returns 200 with complete project details (id, title, status, scenes, duration, thumbnail_url, created_at, updated_at, error_message). GET /api/video/projects returns 200 with array of all user projects. Both endpoints work correctly with Bearer token authentication."
 
 frontend:
   - task: "Create Video Page"
