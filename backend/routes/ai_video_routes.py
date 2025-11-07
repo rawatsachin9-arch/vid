@@ -6,6 +6,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from models.video_project import VideoProject, VideoProjectCreate, VideoProjectResponse, VideoStatus, Scene
 from services.ai_video_service import AIVideoService
 from utils.auth import get_current_user_from_token
+from config.subscription_plans import check_video_limit, check_duration_limit, get_plan_limits
 import uuid
 
 router = APIRouter(prefix="/api/video", tags=["video"])
