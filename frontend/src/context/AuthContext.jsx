@@ -20,12 +20,34 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
-    if (token) {
-      fetchUser();
-    } else {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    // First try session-based auth (Google OAuth)
+    try {
+      const sessionResponse = await axios.get(`${BACKEND_URL}/api/auth/session/me`, {
+        withCredentials: true
+      });
+      setUser(sessionResponse.data);
       setLoading(false);
+      return;
+    } catch (sessionError) {
+      // Session auth failed, try JWT token
+      if (token) {
+        try {
+          const tokenResponse = await axios.get(`${BACKEND_URL}/api/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setUser(tokenResponse.data);
+        } catch (tokenError) {
+          console.error('Failed to fetch user:', tokenError);
+          logout();
+        }
+      }
     }
-  }, [token]);
+    setLoading(false);
+  };
 
   const fetchUser = async () => {
     try {
