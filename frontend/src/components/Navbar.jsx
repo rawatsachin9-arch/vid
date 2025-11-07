@@ -130,28 +130,58 @@ export const Navbar = () => {
                 </a>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                <Button 
-                  variant="ghost" 
-                  size="default" 
-                  className="w-full"
-                  onClick={() => {
-                    navigate('/login');
-                    setIsMobileMenuOpen(false);
-                  }}
-                >
-                  Login
-                </Button>
-                <Button 
-                  variant="premium" 
-                  size="default" 
-                  className="w-full"
-                  onClick={() => {
-                    navigate('/register');
-                    setIsMobileMenuOpen(false);
-                  }}
-                >
-                  Get Started Free
-                </Button>
+                {isAuthenticated ? (
+                  <>
+                    <Button 
+                      variant="ghost" 
+                      size="default" 
+                      className="w-full"
+                      onClick={() => {
+                        navigate('/dashboard');
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Dashboard
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="default" 
+                      className="w-full"
+                      onClick={() => {
+                        logout();
+                        navigate('/');
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      variant="ghost" 
+                      size="default" 
+                      className="w-full"
+                      onClick={() => {
+                        navigate('/login');
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Sign In
+                    </Button>
+                    <Button 
+                      variant="premium" 
+                      size="default" 
+                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                      onClick={() => {
+                        navigate('/register');
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Get Started
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
