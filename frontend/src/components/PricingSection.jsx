@@ -154,14 +154,16 @@ export const PricingSection = () => {
               </CardHeader>
 
               <CardContent className="space-y-6">
-                {/* Stripe Checkout Integration */}
+                {/* PayU Checkout Integration */}
                 {plan.enablePayment ? (
-                  <StripeCheckout
-                    plan={plan.name}
-                    billing={isAnnual ? 'annual' : 'monthly'}
-                    buttonText={plan.cta}
+                  <Button
                     variant={plan.popular ? 'premium' : 'default'}
-                  />
+                    size="lg"
+                    className="w-full"
+                    onClick={() => handlePlanSelect(plan.name)}
+                  >
+                    {plan.cta}
+                  </Button>
                 ) : (
                   <Button
                     variant={plan.popular ? 'premium' : 'default'}
