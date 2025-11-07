@@ -14,6 +14,22 @@ export const PricingSection = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  // Check URL params for auto-checkout after login
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const showCheckoutParam = params.get('showCheckout');
+    const planParam = params.get('plan');
+    const billingParam = params.get('billing');
+    
+    if (showCheckoutParam === 'true' && planParam && isAuthenticated) {
+      setSelectedPlan(planParam);
+      setIsAnnual(billingParam === 'annual');
+      setShowCheckout(true);
+      // Clean URL
+      window.history.replaceState({}, '', '/#pricing');
+    }
+  }, [isAuthenticated]);
+
   const handlePlanSelect = (planName) => {
     // Check if user is authenticated
     if (!isAuthenticated) {
