@@ -306,6 +306,9 @@ backend:
         - working: true
         - agent: "testing"
         - comment: "✅ AI Video Generation working correctly. POST /api/video/generate successfully creates projects with pending status. Background task processes through status progression: pending → processing → generating_script → generating_images. GPT-4o script generation and gpt-image-1 image generation confirmed working via LiteLLM logs. Fixed MongoDB async/sync issues in auth utility and AI video routes."
+        - working: true
+        - agent: "testing"
+        - comment: "✅ AI Video Generation API endpoints working correctly. POST /api/video/generate with Bearer token successfully creates project with status 'pending' and returns project_id. Background task starts processing immediately. Note: Video generation failed with OpenAI 429 quota error (insufficient_quota) - this is an external API limitation, not a backend issue. All API endpoints (create, status check, list) functioning correctly."
 
   - task: "Google OAuth Integration"
     implemented: true
