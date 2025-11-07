@@ -294,9 +294,9 @@ backend:
 
   - task: "AI Video Generation API"
     implemented: true
-    working: true
+    working: false
     file: "/app/backend/routes/ai_video_routes.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
@@ -312,6 +312,9 @@ backend:
         - working: true
         - agent: "testing"
         - comment: "✅ User-requested Emergent LLM Key test completed. Fixed critical import error: changed from 'emergentintegrations.EmergentLLM' to 'openai.OpenAI'. Updated image generation to use base64 format (response_format='b64_json') as required by gpt-image-1 model. All 3 backend API tests passed: (1) POST /api/auth/login with testuser@example.com returns 200 with access_token, (2) POST /api/video/generate creates project with 'pending' status, (3) Background processing starts correctly. CRITICAL ISSUE: Emergent LLM Key (sk-emergent-24d8819031154A0329) is NOT compatible with OpenAI API endpoints - returns 401 invalid_api_key or 404 route_not_found errors. Switched to OPENAI_API_KEY which returns 429 insufficient_quota error (external API limitation). Backend APIs are working correctly; the issue is with API key quota/compatibility."
+        - working: false
+        - agent: "testing"
+        - comment: "❌ FINAL TEST: Emergent LLM Key integration partially working. SUCCESSES: (1) JWT login with testuser@example.com works correctly, (2) POST /api/video/generate creates project with 'pending' status, (3) GPT-4o script generation WORKING - 3 scenes generated with descriptions, narrations, and image prompts, (4) gpt-image-1 API calls successful (HTTP 200 OK responses in logs). CRITICAL FAILURE: Image generation not storing base64 data - all scenes show placeholder URLs instead of base64 image data. Backend logs show 'Error generating image: Failed to generate images: Unexpected image response format' - the emergentintegrations library returns images in format {'b64_json': '...'} but code expects raw bytes. Image generation API is working but response parsing is broken in /app/backend/services/ai_video_service.py line 81-92."
 
   - task: "Google OAuth Integration"
     implemented: true
