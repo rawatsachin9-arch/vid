@@ -37,32 +37,16 @@ const LoginPage = () => {
       return;
     }
 
-    try {
-      const response = await fetch(`${BACKEND_URL}/api/auth/google/session`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Session-ID': sessionId
-        },
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to authenticate with Google');
-      }
-
-      const data = await response.json();
-      
-      // Store user data in localStorage
-      localStorage.setItem('user', JSON.stringify(data.user));
-      
+    const result = await loginWithGoogle(sessionId);
+    
+    if (result.success) {
       // Clean up URL
       window.location.hash = '';
       
       // Navigate to dashboard
       navigate('/dashboard');
-    } catch (err) {
-      setError(err.message);
+    } else {
+      setError(result.error);
       setGoogleLoading(false);
     }
   };
