@@ -86,12 +86,33 @@ class AIVideoService:
             
             if images and len(images) > 0:
                 # Handle dict response from emergentintegrations
-                if isinstance(images[0], dict) and 'b64_json' in images[0]:
-                    # Already base64 encoded
-                    image_base64 = images[0]['b64_json']
-                else:
+                first_image = images[0] if isinstance(images, list) else images
+                
+                if isinstance(first_image, dict):
+                    if 'b64_json' in first_image:
+                        # Already base64 encoded
+                        image_base64 = first_image['b64_json']
+                    elif 'data' in first_image:
+                        # Alternative format with 'data' key
+                        image_base64 = first_image['data']
+                    else:
+                        print(f"Unexpected dict format: {list(first_image.keys())}")
+                        return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Generation+Failed"
+                elif isinstance(first_image, bytes):
                     # Raw bytes, need to encode
-                    image_base64 = base64.b64encode(images[0]).decode('utf-8')
+                    image_base64 = base64.b64encode(first_image).decode('utf-8')
+                elif isinstance(first_image, str):
+                    # Already a string (might be base64 or URL)
+                    if first_image.startswith('data:'):
+                        return first_image
+                    elif first_image.startswith('http'):
+                        return first_image
+                    else:
+                        # Assume it's base64
+                        image_base64 = first_image
+                else:
+                    print(f"Unexpected image type: {type(first_image)}")
+                    return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Generation+Failed"
                 
                 # Return as data URL
                 image_data_url = f"data:image/png;base64,{image_base64}"
