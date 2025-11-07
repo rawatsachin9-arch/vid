@@ -9,9 +9,8 @@ load_dotenv()
 
 class AIVideoService:
     def __init__(self):
-        # Try Emergent key first, fallback to OpenAI key
-        self.api_key = os.getenv("EMERGENT_LLM_KEY") or os.getenv("OPENAI_API_KEY", "")
-        # Use standard OpenAI endpoint (Emergent key doesn't work with custom base URLs)
+        # Use OpenAI key directly (Emergent key not compatible with OpenAI API)
+        self.api_key = os.getenv("OPENAI_API_KEY", "")
         self.client = OpenAI(api_key=self.api_key)
     
     async def generate_script_scenes(self, input_text: str, num_scenes: int = 5) -> List[Dict]:
