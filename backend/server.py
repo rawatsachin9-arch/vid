@@ -56,8 +56,7 @@ async def get_status_checks():
 # Include the router in the main app
 app.include_router(api_router)
 
-# Include Stripe routes
-app.include_router(stripe_routes.router, prefix="/api/stripe", tags=["stripe"])
+# Stripe removed - using PayU for payments
 
 # Include Auth routes
 app.include_router(auth_routes.router, prefix="/api/auth", tags=["authentication"])
