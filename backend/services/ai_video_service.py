@@ -3,15 +3,16 @@ import json
 import base64
 from typing import List, Dict
 from dotenv import load_dotenv
-from openai import OpenAI
+from emergentintegrations.llm.chat import LlmChat, UserMessage
+from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
 
 load_dotenv()
 
 class AIVideoService:
     def __init__(self):
-        # Use OpenAI key directly (Emergent key not compatible with OpenAI API)
-        self.api_key = os.getenv("OPENAI_API_KEY", "")
-        self.client = OpenAI(api_key=self.api_key)
+        # Use Emergent LLM Key for both text and image generation
+        self.api_key = os.getenv("EMERGENT_LLM_KEY", "")
+        self.image_gen = OpenAIImageGeneration(api_key=self.api_key)
     
     async def generate_script_scenes(self, input_text: str, num_scenes: int = 5) -> List[Dict]:
         """
