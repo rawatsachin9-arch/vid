@@ -288,6 +288,9 @@ backend:
         - working: true
         - agent: "testing"
         - comment: "✅ JWT Authentication System fully working. All 5 tests passed: (1) POST /api/auth/register successfully creates users and returns access_token + user object, (2) POST /api/auth/login successfully authenticates users and returns access_token + user object, (3) GET /api/auth/me successfully returns user information with Bearer token, (4) Invalid login correctly rejected with 401, (5) Unauthorized access correctly rejected with 401. Password hashing, token generation, and authentication flow all working correctly."
+        - working: true
+        - agent: "testing"
+        - comment: "✅ JWT Login re-tested with user testuser@example.com. POST /api/auth/login returns 200 with valid access_token and user object (id, email, name, subscription_plan). Bearer token authentication working correctly for all protected endpoints."
 
   - task: "AI Video Generation API"
     implemented: true
