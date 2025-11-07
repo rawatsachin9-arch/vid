@@ -13,7 +13,7 @@ class AIVideoService:
         # Use Emergent's OpenAI-compatible endpoint
         self.client = OpenAI(
             api_key=self.emergent_key,
-            base_url="https://demobackend.emergentagent.com/llm/v1"
+            base_url="https://api.emergent.sh/v1"
         )
     
     async def generate_script_scenes(self, input_text: str, num_scenes: int = 5) -> List[Dict]:
