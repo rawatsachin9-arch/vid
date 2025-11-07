@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 import { Badge } from './ui/badge';
+import { Button } from './ui/button';
 import { Check } from 'lucide-react';
-import { StripeCheckout } from './StripeCheckout';
+import PayUCheckout from './PayUCheckout';
 
 export const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(false);
