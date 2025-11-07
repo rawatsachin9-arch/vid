@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Menu, X } from 'lucide-react';
-import { VideoMakerLogo, VideoMakerLogoText } from './Logo';
+import { Menu, X, Play } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
