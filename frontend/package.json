@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@stripe/react-stripe-js": "^5.2.0",
-    "@stripe/stripe-js": "^8.1.0",
     "axios": "^1.12.2",
     "class-variance-authority": "^0.7.1",
     "cra-template": "1.2.0",
