@@ -74,10 +74,12 @@ class AIVideoService:
         Returns image URL
         """
         try:
-            response = litellm.image_generation(
+            response = self.client.images.generate(
                 model="gpt-image-1",
                 prompt=image_prompt,
-                api_key=self.api_key
+                size="1024x1024",
+                quality="standard",
+                n=1
             )
             
             image_url = response.data[0].url
