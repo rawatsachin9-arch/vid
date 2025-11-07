@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 const PayUCheckout = ({ plan, billing, onSuccess, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
   const [userInfo, setUserInfo] = useState({
-    name: '',
-    email: '',
+    name: user?.name || '',
+    email: user?.email || '',
     phone: ''
   });
+
+  // Update user info when user changes
+  useEffect(() => {
+    if (user) {
+      setUserInfo({
+        name: user.name || '',
+        email: user.email || '',
+        phone: ''
+      });
+    }
+  }, [user]);
 
   const handleInputChange = (e) => {
     setUserInfo({
