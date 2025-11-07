@@ -72,6 +72,9 @@ const CreateVideoPage = () => {
             </p>
           </div>
 
+          {/* Subscription Banner */}
+          <SubscriptionBanner />
+
           {/* Form */}
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
             <form onSubmit={handleSubmit} className="space-y-6">
