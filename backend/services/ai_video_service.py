@@ -73,23 +73,26 @@ class AIVideoService:
     
     async def generate_image_for_scene(self, image_prompt: str) -> str:
         """
-        Generate an image for a scene using gpt-image-1
+        Generate an image for a scene using gpt-image-1 via Emergent LLM Key
         Returns base64-encoded image data URL
         """
         try:
-            response = self.client.images.generate(
-                model="gpt-image-1",
+            # Generate image using emergentintegrations
+            images = await self.image_gen.generate_images(
                 prompt=image_prompt,
-                size="1024x1024",
-                n=1,
-                response_format="b64_json"
+                model="gpt-image-1",
+                number_of_images=1
             )
             
-            # Get base64 image data
-            b64_json = response.data[0].b64_json
-            # Convert to data URL format
-            image_data_url = f"data:image/png;base64,{b64_json}"
-            return image_data_url
+            if images and len(images) > 0:
+                # Convert image bytes to base64
+                image_base64 = base64.b64encode(images[0]).decode('utf-8')
+                # Return as data URL
+                image_data_url = f"data:image/png;base64,{image_base64}"
+                return image_data_url
+            else:
+                print("No image was generated")
+                return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Generation+Failed"
         except Exception as e:
             print(f"Error generating image: {e}")
             # Return a placeholder image if generation fails
