@@ -54,7 +54,7 @@ class AIVideoService:
         user_message = UserMessage(text=prompt)
         response = await chat.send_message(user_message)
         
-        response_text = response.choices[0].message.content
+        response_text = response.text if hasattr(response, 'text') else str(response)
         
         # Parse the JSON response
         try:
