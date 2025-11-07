@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../co
 import { Mail, Lock, Loader2 } from 'lucide-react';
 import { VideoMakerLogo, VideoMakerLogoText } from '../components/Logo';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+// Use empty string for relative URLs (same domain) or localhost for development
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
