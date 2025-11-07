@@ -437,6 +437,18 @@ frontend:
         - agent: "testing"
         - comment: "❌ CRITICAL: External URL https://feb7d622-f33d-43ba-bde9-fd0178449fcc.emergent.host shows 'Deployment not found' with 400 status codes. This is a Kubernetes ingress configuration issue preventing external access. Frontend works correctly on localhost:3000 but cannot communicate with backend due to CORS policy when using external URL. All protected routes fail authentication."
 
+  - task: "PayU Payment Integration"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/payu_routes.py, /app/frontend/src/components/PayUCheckout.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+        - agent: "main"
+        - comment: "Removed Stripe completely and implemented PayU payment gateway. Created PayU checkout component, payment success/failure pages. Backend has PayU routes for payment creation and verification. Frontend pricing page now uses PayU for all subscriptions. Supports INR pricing for Indian market."
+
 metadata:
   created_by: "main_agent"
   version: "2.1"
