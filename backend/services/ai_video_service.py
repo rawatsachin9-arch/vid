@@ -45,14 +45,15 @@ class AIVideoService:
         Make the scenes flow naturally and tell a cohesive story. Each scene should be visually distinct.
         """
         
-        response = self.client.chat.completions.create(
+        response = litellm.completion(
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are an expert video script writer and scene designer. You break down text into engaging visual scenes perfect for video creation."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
-            max_tokens=2000
+            max_tokens=2000,
+            api_key=self.api_key
         )
         
         response_text = response.choices[0].message.content
