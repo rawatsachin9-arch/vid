@@ -103,39 +103,72 @@ export const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right Content - Hero Image */}
+          {/* Right Content - Hero Visual */}
           <div className="relative animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl hover-lift">
-              <img
-                src="https://images.unsplash.com/photo-1559860199-52dc7841bf5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwxfHxBSSUyMHZpZGVvJTIwY3JlYXRpb258ZW58MHx8fHwxNzYwODA5NDE4fDA&ixlib=rb-4.1.0&q=85"
-                alt="AI Video Creation"
-                className="w-full h-auto object-cover"
-              />
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"></div>
+            {/* Main Card */}
+            <div className="relative">
+              {/* Glow Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-2xl opacity-30"></div>
               
-              {/* Floating card */}
-              <div className="absolute bottom-6 left-6 right-6 glass rounded-xl p-4 animate-scaleIn" style={{ animationDelay: '0.8s' }}>
+              {/* Content Card */}
+              <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+                {/* Video Preview Mockup */}
+                <div className="relative aspect-video bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl overflow-hidden mb-6">
+                  {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform cursor-pointer">
+                      <Play className="w-10 h-10 text-white fill-white ml-1" />
+                    </div>
+                  </div>
+                  
+                  {/* Video Thumbnail */}
+                  <img
+                    src="https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?w=800&q=80"
+                    alt="AI Video Creation"
+                    className="w-full h-full object-cover opacity-60"
+                  />
+                </div>
+
+                {/* Features Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                    <Zap className="w-8 h-8 text-yellow-400 mb-2" />
+                    <div className="text-sm font-semibold text-white">Lightning Fast</div>
+                    <div className="text-xs text-gray-400">Generate in seconds</div>
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                    <Award className="w-8 h-8 text-purple-400 mb-2" />
+                    <div className="text-sm font-semibold text-white">HD Quality</div>
+                    <div className="text-xs text-gray-400">Professional output</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Stats Cards */}
+              <div className="absolute -top-6 -right-6 bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20 shadow-xl animate-float">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
-                    <Video className="w-6 h-6 text-primary-foreground" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center">
+                    <TrendingUp className="w-6 h-6 text-white" />
                   </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold">Video Generated</p>
-                    <p className="text-xs text-muted-foreground">In just 2 minutes</p>
+                  <div>
+                    <div className="text-2xl font-bold text-white">98%</div>
+                    <div className="text-xs text-gray-400">Success Rate</div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-success flex items-center justify-center">
-                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
+                </div>
+              </div>
+
+              <div className="absolute -bottom-6 -left-6 bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20 shadow-xl animate-float animation-delay-2000">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center">
+                    <Sparkles className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-white">AI</div>
+                    <div className="text-xs text-gray-400">Powered</div>
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-accent/20 rounded-full blur-2xl"></div>
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
           </div>
         </div>
 
