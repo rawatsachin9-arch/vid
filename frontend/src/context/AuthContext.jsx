@@ -104,7 +104,38 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const loginWithGoogle = async (sessionId) => {
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/auth/google/session`, 
+        {},
+        {
+          headers: {
+            'X-Session-ID': sessionId
+          },
+          withCredentials: true
+        }
+      );
+      
+      setUser(response.data.user);
+      return { success: true, user: response.data.user };
+    } catch (error) {
+      return { 
+        success: false, 
+        error: error.response?.data?.detail || 'Google login failed' 
+      };
+    }
+  };
+
+  const logout = async () => {
+    try {
+      // Try to logout from session-based auth
+      await axios.post(`${BACKEND_URL}/api/auth/logout`, {}, {
+        withCredentials: true
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+    
     localStorage.removeItem('token');
     setToken(null);
     setUser(null);
@@ -116,6 +147,7 @@ export const AuthProvider = ({ children }) => {
     token,
     login,
     register,
+    loginWithGoogle,
     logout,
     isAuthenticated: !!user
   };
