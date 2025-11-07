@@ -32,8 +32,13 @@ const PayUCheckout = ({ plan, billing, onSuccess, onCancel }) => {
         return;
       }
 
+      console.log('Initiating payment with:', { plan, billing, ...userInfo });
+
       // Create payment request
-      const response = await axios.post(`${BACKEND_URL}/api/payu/create-payment`, {
+      const requestUrl = `${BACKEND_URL}/api/payu/create-payment`;
+      console.log('Request URL:', requestUrl);
+      
+      const response = await axios.post(requestUrl, {
         plan,
         billing,
         name: userInfo.name,
@@ -42,6 +47,8 @@ const PayUCheckout = ({ plan, billing, onSuccess, onCancel }) => {
         success_url: `${window.location.origin}/payment-success`,
         failure_url: `${window.location.origin}/payment-failure`
       });
+
+      console.log('Payment response:', response.data);
 
       if (response.data.success) {
         // Create form and submit to PayU
@@ -59,11 +66,14 @@ const PayUCheckout = ({ plan, billing, onSuccess, onCancel }) => {
         });
 
         document.body.appendChild(form);
+        console.log('Submitting form to PayU...');
         form.submit();
       }
     } catch (err) {
       console.error('Payment error:', err);
-      setError(err.response?.data?.detail || 'Payment initiation failed');
+      console.error('Error response:', err.response);
+      const errorMessage = err.response?.data?.detail || err.message || 'Payment initiation failed';
+      setError(errorMessage);
       setLoading(false);
     }
   };
