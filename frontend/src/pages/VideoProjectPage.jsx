@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+// Use empty string for relative URLs (same domain)
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 const VideoProjectPage = () => {
   const { projectId } = useParams();
@@ -25,13 +26,16 @@ const VideoProjectPage = () => {
 
   const fetchProject = async () => {
     try {
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem('token');
+      
+      const headers = {};
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
       
       const response = await fetch(`${BACKEND_URL}/api/video/projects/${projectId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        credentials: 'include'
+        headers: headers,
+        credentials: 'include' // Important for session cookie auth
       });
 
       if (!response.ok) {
