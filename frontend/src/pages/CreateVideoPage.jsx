@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
+import SubscriptionBanner from '../components/SubscriptionBanner';
 
 // Use empty string for relative URLs (same domain)
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
