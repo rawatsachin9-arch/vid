@@ -429,6 +429,7 @@ metadata:
 
 test_plan:
   current_focus:
+    - "JWT Authentication System"
     - "AI Video Generation API"
     - "Google OAuth Integration"
     - "Video Projects CRUD API"
