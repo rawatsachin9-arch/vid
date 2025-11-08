@@ -1,10 +1,10 @@
 import os
 import json
 import base64
+import httpx
 from typing import List, Dict
 from dotenv import load_dotenv
 from emergentintegrations.llm.chat import LlmChat, UserMessage
-from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
 
 load_dotenv()
 
@@ -12,7 +12,8 @@ class AIVideoService:
     def __init__(self):
         # Use Emergent LLM Key for both text and image generation
         self.api_key = os.getenv("EMERGENT_LLM_KEY", "")
-        self.image_gen = OpenAIImageGeneration(api_key=self.api_key)
+        # Emergent proxy URL for image generation
+        self.emergent_image_url = "https://integrations.emergentagent.com/llm/images/generations"
     
     async def generate_script_scenes(self, input_text: str, num_scenes: int = 5) -> List[Dict]:
         """
