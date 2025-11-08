@@ -294,9 +294,9 @@ backend:
 
   - task: "AI Video Generation API"
     implemented: true
-    working: true
+    working: false
     file: "/app/backend/routes/ai_video_routes.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: true
     status_history:
@@ -318,6 +318,12 @@ backend:
         - working: true
         - agent: "main"
         - comment: "✅ FIXED: Image generation base64 storage issue resolved. Updated ai_video_service.py to handle multiple response formats from emergentintegrations library: dict with 'b64_json' key, dict with 'data' key, raw bytes, base64 strings, and URL strings. The code now properly extracts and stores base64 image data regardless of the response format. Ready for testing with valid API key."
+        - working: false
+        - agent: "user"
+        - comment: "❌ USER REPORT: Video scenes are generated with descriptions and narrations but images are not displaying - showing dark placeholders instead. GPT-4o text generation is working but gpt-image-1 image generation is failing."
+        - working: "NA"
+        - agent: "main"
+        - comment: "Investigating image generation issue. Troubleshoot agent confirmed backend restart should clear cached import errors. Need to test with backend testing agent to verify image generation is now working."
 
   - task: "Google OAuth Integration"
     implemented: true
