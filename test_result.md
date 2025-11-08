@@ -324,6 +324,9 @@ backend:
         - working: "NA"
         - agent: "main"
         - comment: "Investigating image generation issue. Troubleshoot agent confirmed backend restart should clear cached import errors. Need to test with backend testing agent to verify image generation is now working."
+        - working: false
+        - agent: "testing"
+        - comment: "❌ CRITICAL ISSUE CONFIRMED: Image generation is completely broken. Comprehensive test performed: (1) JWT login successful with testuser@example.com, (2) Video project created successfully with prompt 'A beautiful sunset over the ocean', (3) Video generation completed with 5 scenes, BUT all 5 scenes show placeholder images (https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Generation+Failed). Backend logs reveal root cause: 'Error generating image: Failed to generate images: Unexpected image response format: {'b64_json': 'iVBORw0KGgo...'}'. The emergentintegrations library is throwing an exception BEFORE our code can handle the response. The gpt-image-1 API is returning valid data (HTTP 200 OK with b64_json key containing base64 image data), but the emergentintegrations.llm.openai.image_generation.OpenAIImageGeneration class is rejecting it as 'unexpected format'. This is a library-level bug - the library's internal validation is failing even though the API response is correct. The ai_video_service.py code (lines 74-127) is correct and would handle the response properly if the library didn't throw an exception first."
 
   - task: "Google OAuth Integration"
     implemented: true
