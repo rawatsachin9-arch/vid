@@ -19,7 +19,7 @@ TEST_EMAIL = "testuser@example.com"
 TEST_PASSWORD = "testpassword123"
 
 # Test video prompt as specified by user
-TEST_PROMPT = "A beautiful sunset over the ocean"
+TEST_PROMPT = "A peaceful garden with colorful flowers blooming"
 
 class ImageGenerationTester:
     def __init__(self):
