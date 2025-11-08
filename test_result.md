@@ -296,7 +296,7 @@ backend:
     implemented: true
     working: false
     file: "/app/backend/routes/ai_video_routes.py"
-    stuck_count: 2
+    stuck_count: 3
     priority: "high"
     needs_retesting: false
     status_history:
@@ -330,6 +330,9 @@ backend:
         - working: false
         - agent: "testing"
         - comment: "❌ CRITICAL ISSUE CONFIRMED: Image generation is completely broken. Comprehensive test performed: (1) JWT login successful with testuser@example.com, (2) Video project created successfully with prompt 'A beautiful sunset over the ocean', (3) Video generation completed with 5 scenes, BUT all 5 scenes show placeholder images (https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Generation+Failed). Backend logs reveal root cause: 'Error generating image: Failed to generate images: Unexpected image response format: {'b64_json': 'iVBORw0KGgo...'}'. The emergentintegrations library is throwing an exception BEFORE our code can handle the response. The gpt-image-1 API is returning valid data (HTTP 200 OK with b64_json key containing base64 image data), but the emergentintegrations.llm.openai.image_generation.OpenAIImageGeneration class is rejecting it as 'unexpected format'. This is a library-level bug - the library's internal validation is failing even though the API response is correct. The ai_video_service.py code (lines 74-127) is correct and would handle the response properly if the library didn't throw an exception first."
+        - working: false
+        - agent: "testing"
+        - comment: "❌ IMAGE GENERATION STILL BROKEN - NEW ROOT CAUSE IDENTIFIED: Tested with testuser@example.com and prompt 'A peaceful garden with colorful flowers blooming'. SUCCESSES: (1) JWT login working, (2) Video project created successfully, (3) GPT-4o script generation WORKING - 5 scenes with complete descriptions/narrations/image_prompts, (4) Video completed in 31 seconds. CRITICAL FAILURE: All 5 scenes show placeholder images. Backend logs reveal NEW error: 'Image generation API error: 400 - litellm.UnsupportedParamsError: Setting `response_format` is not supported by openai, gpt-image-1. To drop it from the call, set `litellm.drop_params = True`'. ROOT CAUSE: The Emergent API proxy (https://integrations.emergentagent.com/llm/images/generations) does NOT support the response_format parameter for gpt-image-1. The main agent's fix attempted to use response_format='url' but this parameter is rejected with HTTP 400. FIX NEEDED: Remove the response_format parameter entirely from the API call in /app/backend/services/ai_video_service.py line 97, or set litellm.drop_params = True before making the call."
 
   - task: "Google OAuth Integration"
     implemented: true
