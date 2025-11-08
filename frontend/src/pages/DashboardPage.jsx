@@ -8,7 +8,7 @@ import { Badge } from '../components/ui/badge';
 import { Sparkles, Video, Wand2, Loader2, FileText, Mic } from 'lucide-react';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const DashboardPage = () => {
   const { user, token } = useAuth();
