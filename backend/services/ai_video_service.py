@@ -76,54 +76,72 @@ class AIVideoService:
         """
         Generate an image for a scene using gpt-image-1 via Emergent LLM Key
         Returns base64-encoded image data URL
+        
+        Bypasses emergentintegrations library to call API directly due to library bug
+        with b64_json response format handling
         """
         try:
-            # Generate image using emergentintegrations
-            images = await self.image_gen.generate_images(
-                prompt=image_prompt,
-                model="gpt-image-1",
-                number_of_images=1
-            )
-            
-            if images and len(images) > 0:
-                # Handle dict response from emergentintegrations
-                first_image = images[0] if isinstance(images, list) else images
+            # Call the Emergent image generation API directly
+            async with httpx.AsyncClient(timeout=120.0) as client:
+                response = await client.post(
+                    self.emergent_image_url,
+                    headers={
+                        "Authorization": f"Bearer {self.api_key}",
+                        "Content-Type": "application/json"
+                    },
+                    json={
+                        "model": "gpt-image-1",
+                        "prompt": image_prompt,
+                        "n": 1,
+                        "quality": "low",
+                        "response_format": "url"  # Request URL format instead of b64_json
+                    }
+                )
                 
-                if isinstance(first_image, dict):
-                    if 'b64_json' in first_image:
-                        # Already base64 encoded
-                        image_base64 = first_image['b64_json']
-                    elif 'data' in first_image:
-                        # Alternative format with 'data' key
-                        image_base64 = first_image['data']
-                    else:
-                        print(f"Unexpected dict format: {list(first_image.keys())}")
-                        return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Generation+Failed"
-                elif isinstance(first_image, bytes):
-                    # Raw bytes, need to encode
-                    image_base64 = base64.b64encode(first_image).decode('utf-8')
-                elif isinstance(first_image, str):
-                    # Already a string (might be base64 or URL)
-                    if first_image.startswith('data:'):
-                        return first_image
-                    elif first_image.startswith('http'):
-                        return first_image
-                    else:
-                        # Assume it's base64
-                        image_base64 = first_image
-                else:
-                    print(f"Unexpected image type: {type(first_image)}")
+                if response.status_code != 200:
+                    print(f"Image generation API error: {response.status_code} - {response.text}")
                     return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Generation+Failed"
                 
-                # Return as data URL
-                image_data_url = f"data:image/png;base64,{image_base64}"
-                return image_data_url
-            else:
-                print("No image was generated")
-                return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Generation+Failed"
+                result = response.json()
+                
+                # The API returns: {"data": [{"url": "..."}, ...]}
+                if "data" in result and len(result["data"]) > 0:
+                    image_data = result["data"][0]
+                    
+                    # Check if we have a URL
+                    if "url" in image_data and image_data["url"]:
+                        image_url = image_data["url"]
+                        
+                        # Download the image and convert to base64
+                        img_response = await client.get(image_url)
+                        if img_response.status_code == 200:
+                            image_bytes = img_response.content
+                            image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+                            image_data_url = f"data:image/png;base64,{image_base64}"
+                            return image_data_url
+                        else:
+                            print(f"Failed to download image from URL: {img_response.status_code}")
+                            return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Download+Failed"
+                    
+                    # Check if we have b64_json
+                    elif "b64_json" in image_data and image_data["b64_json"]:
+                        image_base64 = image_data["b64_json"]
+                        image_data_url = f"data:image/png;base64,{image_base64}"
+                        return image_data_url
+                    else:
+                        print(f"Unexpected response format: {list(image_data.keys())}")
+                        return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Unexpected+Format"
+                else:
+                    print(f"No image data in response: {result}")
+                    return "https://via.placeholder.com/1024x1024/cccccc/666666?text=No+Image+Data"
+                    
+        except httpx.TimeoutException:
+            print(f"Timeout generating image for prompt: {image_prompt[:100]}")
+            return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Timeout"
         except Exception as e:
             print(f"Error generating image: {e}")
-            # Return a placeholder image if generation fails
+            import traceback
+            traceback.print_exc()
             return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Generation+Failed"
     
     async def generate_all_scene_images(self, scenes: List[Dict]) -> List[Dict]:
