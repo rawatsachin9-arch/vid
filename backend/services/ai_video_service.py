@@ -6,6 +6,13 @@ from typing import List, Dict
 from dotenv import load_dotenv
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 
+# Try to set litellm drop_params if available
+try:
+    import litellm
+    litellm.drop_params = True
+except:
+    pass
+
 load_dotenv()
 
 class AIVideoService:
