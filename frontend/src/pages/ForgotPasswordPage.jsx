@@ -59,23 +59,20 @@ const ForgotPasswordPage = () => {
                 <div className="flex flex-col items-center justify-center py-6 sm:py-8">
                   <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-success mb-4" />
                   <h3 className="text-base sm:text-lg font-semibold text-center mb-2">Reset Link Sent!</h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground text-center">
-                    If an account exists with <strong>{email}</strong>, you will receive a password reset link shortly.
+                  <p className="text-xs sm:text-sm text-muted-foreground text-center mb-4">
+                    If an account exists with <strong>{email}</strong>, you will receive a password reset link at your email address within a few minutes.
                   </p>
                   
-                  {/* Show token for development (remove in production) */}
-                  {resetToken && (
-                    <div className="mt-4 p-3 sm:p-4 bg-muted rounded-lg w-full">
-                      <p className="text-xs sm:text-sm font-semibold mb-2">Reset Token (Dev Only):</p>
-                      <p className="text-xs break-all text-muted-foreground">{resetToken}</p>
-                      <Link 
-                        to={`/reset-password?token=${resetToken}`}
-                        className="text-xs sm:text-sm text-primary hover:underline mt-2 block"
-                      >
-                        Click here to reset password
-                      </Link>
-                    </div>
-                  )}
+                  <div className="p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p className="text-xs sm:text-sm text-blue-800">
+                      <strong>📧 Check your email</strong><br/>
+                      Look for an email from VideoAI Support with the subject "Reset Your VideoAI Password"
+                    </p>
+                  </div>
+                  
+                  <p className="text-xs text-muted-foreground mt-4">
+                    Didn't receive it? Check your spam folder or try again.
+                  </p>
                 </div>
 
                 <div className="flex flex-col gap-3">
