@@ -164,3 +164,34 @@ class AIVideoService:
                 scene['image_url'] = None
         
         return scenes
+
+    async def _save_base64_image_to_file(self, b64_data: str) -> str:
+        """
+        Save base64 image data to a file and return the URL
+        This avoids storing large base64 data in MongoDB (16MB limit)
+        """
+        try:
+            # Create images directory if it doesn't exist
+            images_dir = "/app/backend/static/images"
+            os.makedirs(images_dir, exist_ok=True)
+            
+            # Generate unique filename
+            image_id = str(uuid.uuid4())
+            filename = f"{image_id}.png"
+            filepath = os.path.join(images_dir, filename)
+            
+            # Decode base64 and save to file
+            image_bytes = base64.b64decode(b64_data)
+            with open(filepath, "wb") as f:
+                f.write(image_bytes)
+            
+            # Return URL to the saved image
+            # Use the backend URL to serve the static file
+            backend_url = os.getenv("BACKEND_URL", "https://c-project-4.preview.emergentagent.com")
+            image_url = f"{backend_url}/static/images/{filename}"
+            
+            return image_url
+            
+        except Exception as e:
+            print(f"Error saving base64 image to file: {e}")
+            raise
