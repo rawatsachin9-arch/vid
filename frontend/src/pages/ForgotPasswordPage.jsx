@@ -25,10 +25,6 @@ const ForgotPasswordPage = () => {
       });
       
       setSuccess(true);
-      // Store token temporarily (in production, this would be sent via email)
-      if (response.data.reset_token) {
-        setResetToken(response.data.reset_token);
-      }
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to send reset link');
     } finally {
