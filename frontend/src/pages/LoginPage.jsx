@@ -14,59 +14,13 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
-  const { login, loginWithGoogle } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   // Check for redirect params
   const urlParams = new URLSearchParams(window.location.search);
   const redirectTo = urlParams.get('redirect');
   const planFromUrl = urlParams.get('plan');
-
-  // Check for session_id in URL fragment (from Google OAuth)
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash && hash.includes('session_id=')) {
-      handleGoogleCallback();
-    }
-  }, []);
-
-  const handleGoogleCallback = async () => {
-    setGoogleLoading(true);
-    const hash = window.location.hash;
-    const sessionId = hash.split('session_id=')[1]?.split('&')[0];
-    
-    if (!sessionId) {
-      setError('Invalid session');
-      setGoogleLoading(false);
-      return;
-    }
-
-    const result = await loginWithGoogle(sessionId);
-    
-    if (result.success) {
-      // Clean up URL
-      window.location.hash = '';
-      
-      // Check if there's a redirect
-      if (redirectTo === 'pricing') {
-        const plan = localStorage.getItem('selectedPlan');
-        const billing = localStorage.getItem('selectedBilling');
-        if (plan) {
-          localStorage.removeItem('selectedPlan');
-          localStorage.removeItem('selectedBilling');
-          window.location.href = '/#pricing?showCheckout=true&plan=' + plan + '&billing=' + billing;
-        } else {
-          navigate('/#pricing');
-        }
-      } else {
-        navigate('/dashboard');
-      }
-    } else {
-      setError(result.error);
-      setGoogleLoading(false);
-    }
-  };
 
   const handleGoogleLogin = () => {
     // Use videopromt.com domain for OAuth callback
