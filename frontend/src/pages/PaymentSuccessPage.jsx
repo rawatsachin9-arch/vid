@@ -55,31 +55,31 @@ const PaymentSuccessPage = () => {
       <div className="max-w-md w-full bg-white rounded-lg shadow-xl p-8 text-center">
         {verifying ? (
           <>
-            <Loader className="w-16 h-16 mx-auto mb-4 text-blue-600 animate-spin" />
-            <h2 className="text-2xl font-bold mb-2">Verifying Payment...</h2>
-            <p className="text-gray-600">Please wait while we confirm your payment</p>
+            <Loader className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-blue-600 animate-spin" />
+            <h2 className="text-xl sm:text-2xl font-bold mb-2">Verifying Payment...</h2>
+            <p className="text-sm sm:text-base text-gray-600">Please wait while we confirm your payment</p>
           </>
         ) : verified ? (
           <>
-            <CheckCircle className="w-16 h-16 mx-auto mb-4 text-green-600" />
-            <h2 className="text-2xl font-bold mb-2 text-green-600">Payment Successful!</h2>
-            <p className="text-gray-600 mb-4">
+            <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-green-600" />
+            <h2 className="text-xl sm:text-2xl font-bold mb-2 text-green-600">Payment Successful!</h2>
+            <p className="text-sm sm:text-base text-gray-600 mb-4">
               Thank you for your purchase. Your subscription is now active.
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs sm:text-sm text-gray-500">
               Redirecting to dashboard...
             </p>
           </>
         ) : (
           <>
-            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-              <span className="text-3xl">❌</span>
+            <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+              <span className="text-2xl sm:text-3xl">❌</span>
             </div>
-            <h2 className="text-2xl font-bold mb-2 text-red-600">Verification Failed</h2>
-            <p className="text-gray-600 mb-4">{error || 'Unable to verify payment'}</p>
+            <h2 className="text-xl sm:text-2xl font-bold mb-2 text-red-600">Verification Failed</h2>
+            <p className="text-sm sm:text-base text-gray-600 mb-4">{error || 'Unable to verify payment'}</p>
             <button
               onClick={() => navigate('/')}
-              className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="px-4 sm:px-6 py-2 bg-blue-600 text-white text-sm sm:text-base rounded hover:bg-blue-700"
             >
               Go to Home
             </button>
