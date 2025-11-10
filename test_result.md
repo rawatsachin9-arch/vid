@@ -300,9 +300,9 @@ backend:
 
   - task: "AI Video Generation API"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/routes/ai_video_routes.py"
-    stuck_count: 3
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
