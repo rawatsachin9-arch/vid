@@ -291,6 +291,9 @@ backend:
         - working: true
         - agent: "testing"
         - comment: "✅ JWT Login re-tested with user testuser@example.com. POST /api/auth/login returns 200 with valid access_token and user object (id, email, name, subscription_plan). Bearer token authentication working correctly for all protected endpoints."
+        - working: true
+        - agent: "main"
+        - comment: "✅ CORS FIX FOR videopromt.com DOMAIN: User reported email login not working. Troubleshoot agent identified CORS configuration issue - videopromt.com was not in CORS_ORIGINS list. Added http://videopromt.com, https://videopromt.com, http://www.videopromt.com, https://www.videopromt.com to CORS_ORIGINS in /app/backend/.env. Backend restarted successfully. Email login should now work from videopromt.com domain. Backend API verified working with curl tests (register and login both return access_token correctly)."
 
   - task: "AI Video Generation API"
     implemented: true
