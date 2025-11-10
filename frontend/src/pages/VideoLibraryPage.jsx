@@ -126,15 +126,15 @@ const VideoLibraryPage = () => {
 
         {/* Projects Grid */}
         {projects.length === 0 ? (
-          <div className="text-center py-20">
-            <svg className="w-24 h-24 text-gray-600 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-center py-12 sm:py-20 px-4">
+            <svg className="w-16 h-16 sm:w-24 sm:h-24 text-gray-600 mx-auto mb-4 sm:mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
-            <h2 className="text-3xl font-bold text-white mb-4">No videos yet</h2>
-            <p className="text-gray-400 mb-8">Create your first AI-powered video to get started</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">No videos yet</h2>
+            <p className="text-sm sm:text-base text-gray-400 mb-6 sm:mb-8">Create your first AI-powered video to get started</p>
             <button
               onClick={() => navigate('/create-video')}
-              className="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700"
+              className="px-6 sm:px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700"
             >
               Create Your First Video
             </button>
