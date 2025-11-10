@@ -61,14 +61,14 @@ const CreateVideoPage = () => {
     <div className="min-h-screen bg-gradient-to-b from-purple-900 via-blue-900 to-black">
       <Navbar />
       
-      <div className="container mx-auto px-4 py-20">
+      <div className="container mx-auto px-4 py-12 sm:py-20">
         <div className="max-w-3xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold text-white mb-4">
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
               Create Your AI Video
             </h1>
-            <p className="text-xl text-gray-300">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300">
               Transform your text into engaging videos with AI-powered scene generation
             </p>
           </div>
