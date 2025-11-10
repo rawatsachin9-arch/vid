@@ -10,25 +10,25 @@ const PaymentFailurePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-xl p-8 text-center">
-        <XCircle className="w-16 h-16 mx-auto mb-4 text-red-600" />
-        <h2 className="text-2xl font-bold mb-2 text-red-600">Payment Failed</h2>
-        <p className="text-gray-600 mb-6">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-xl p-6 sm:p-8 text-center">
+        <XCircle className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-red-600" />
+        <h2 className="text-xl sm:text-2xl font-bold mb-2 text-red-600">Payment Failed</h2>
+        <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
           {errorMessage}
         </p>
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6">
           No charges were made to your account.
         </p>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={() => navigate('/')}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded text-sm sm:text-base text-gray-700 hover:bg-gray-50"
           >
             Go Home
           </button>
           <button
             onClick={() => navigate('/#pricing')}
-            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="flex-1 px-4 py-2 bg-blue-600 text-white text-sm sm:text-base rounded hover:bg-blue-700"
           >
             Try Again
           </button>
