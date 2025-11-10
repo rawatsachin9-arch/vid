@@ -497,8 +497,7 @@ test_plan:
     - "Video Project Page"
     - "Video Library Page"
     - "Google Login Button"
-  stuck_tasks:
-    - "AI Video Generation API - Image generation broken due to emergentintegrations library bug"
+  stuck_tasks: []
   test_all: true
   test_priority: "high_first"
 
