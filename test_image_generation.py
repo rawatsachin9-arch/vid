@@ -11,7 +11,7 @@ import time
 from datetime import datetime
 
 # Configuration - Use the actual backend URL from frontend/.env
-BACKEND_URL = "https://c-dev-7.preview.emergentagent.com"
+BACKEND_URL = "https://c-project-4.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 # Test credentials as specified by user
