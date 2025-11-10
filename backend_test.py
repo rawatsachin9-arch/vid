@@ -33,43 +33,42 @@ class BackendTester:
         self.user_id = None
         self.project_id = None
         
-    async def setup_test_user(self):
-        """Create test user and session for authentication"""
-        print("🔧 Setting up test user and session...")
+    async def test_jwt_login(self):
+        """Test JWT login with testuser@example.com as specified in review request"""
+        print("🔐 Testing JWT Login with testuser@example.com")
         
-        # Generate unique identifiers
-        timestamp = int(time.time())
-        self.user_id = f"test-user-{timestamp}"
-        self.session_token = f"test_session_{timestamp}"
-        
-        # Create test user
-        user_doc = {
-            'id': self.user_id,
-            'email': f'test.user.{timestamp}@example.com',
-            'name': 'Test User AI Video',
-            'picture': 'https://via.placeholder.com/150',
-            'subscription_plan': 'free',
-            'videos_created': 0,
-            'created_at': datetime.now(timezone.utc).isoformat(),
-            'updated_at': datetime.now(timezone.utc).isoformat()
-        }
-        
-        # Create session
-        session_doc = {
-            'user_id': self.user_id,
-            'session_token': self.session_token,
-            'expires_at': datetime.now(timezone.utc) + timedelta(days=7),
-            'created_at': datetime.now(timezone.utc)
+        login_data = {
+            "email": "testuser@example.com",
+            "password": "password123"
         }
         
         try:
-            self.db.users.insert_one(user_doc)
-            self.db.user_sessions.insert_one(session_doc)
-            print(f"✅ Created test user: {self.user_id}")
-            print(f"✅ Created session token: {self.session_token}")
+            response = await self.client.post(
+                f"{API_BASE}/auth/login",
+                json=login_data
+            )
+            
+            print(f"Status: {response.status_code}")
+            
+            if response.status_code == 200:
+                result = response.json()
+                self.session_token = result.get('access_token')
+                user_data = result.get('user', {})
+                self.user_id = user_data.get('id')
+                
+                print(f"✅ JWT Login successful")
+                print(f"   User ID: {self.user_id}")
+                print(f"   Email: {user_data.get('email')}")
+                print(f"   Name: {user_data.get('name')}")
+                print(f"   Access Token: {self.session_token[:20]}...")
+                return True
+            else:
+                print(f"❌ JWT Login failed: {response.text}")
+                return False
+                
         except Exception as e:
-            print(f"❌ Failed to create test user: {e}")
-            raise
+            print(f"❌ JWT Login error: {e}")
+            return False
     
     async def test_auth_session_me(self):
         """Test GET /api/auth/session/me endpoint"""
