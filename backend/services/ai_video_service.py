@@ -2,6 +2,7 @@ import os
 import json
 import base64
 import httpx
+import uuid
 from typing import List, Dict
 from dotenv import load_dotenv
 from emergentintegrations.llm.chat import LlmChat, UserMessage
