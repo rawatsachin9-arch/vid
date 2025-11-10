@@ -115,26 +115,17 @@ class AIVideoService:
                 if "data" in result and len(result["data"]) > 0:
                     image_data = result["data"][0]
                     
-                    # Check if we have a URL
+                    # Check if we have a URL - USE IT DIRECTLY (don't convert to base64 to avoid MongoDB 16MB limit)
                     if "url" in image_data and image_data["url"]:
                         image_url = image_data["url"]
-                        
-                        # Download the image and convert to base64
-                        img_response = await client.get(image_url)
-                        if img_response.status_code == 200:
-                            image_bytes = img_response.content
-                            image_base64 = base64.b64encode(image_bytes).decode('utf-8')
-                            image_data_url = f"data:image/png;base64,{image_base64}"
-                            return image_data_url
-                        else:
-                            print(f"Failed to download image from URL: {img_response.status_code}")
-                            return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Image+Download+Failed"
+                        print(f"✅ Image generated successfully: {image_url[:100]}...")
+                        return image_url  # Return URL directly instead of converting to base64
                     
-                    # Check if we have b64_json
+                    # Fallback: Check if we have b64_json (not recommended due to size)
                     elif "b64_json" in image_data and image_data["b64_json"]:
-                        image_base64 = image_data["b64_json"]
-                        image_data_url = f"data:image/png;base64,{image_base64}"
-                        return image_data_url
+                        print("⚠️  Received b64_json format - using placeholder due to MongoDB size limits")
+                        # Don't store base64 as it exceeds MongoDB 16MB document limit
+                        return "https://via.placeholder.com/1024x1024/cccccc/666666?text=B64+Format+Not+Supported"
                     else:
                         print(f"Unexpected response format: {list(image_data.keys())}")
                         return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Unexpected+Format"
