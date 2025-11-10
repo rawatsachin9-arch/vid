@@ -339,11 +339,11 @@ backend:
 
   - task: "Google OAuth Integration"
     implemented: true
-    working: false
-    file: "/app/backend/routes/auth_routes.py"
+    working: "NA"
+    file: "/app/backend/routes/auth_routes.py, /app/frontend/src/pages/OAuthCallbackPage.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
         - agent: "main"
@@ -351,6 +351,9 @@ backend:
         - working: false
         - agent: "testing"
         - comment: "❌ Google OAuth session endpoint fails with 401 Invalid session when testing with X-Session-ID header. This is expected as it requires valid Emergent Auth session ID. GET /api/auth/session/me works correctly with session tokens. POST /api/auth/logout works correctly."
+        - working: "NA"
+        - agent: "main"
+        - comment: "🔄 UPDATED FOR NEW DOMAIN videopromt.com: Following Emergent Auth best practices, updated OAuth flow to redirect to dedicated callback route /auth/callback on videopromt.com domain. Created new OAuthCallbackPage.jsx to handle session_id processing after Google authentication. Updated LoginPage.jsx and RegisterPage.jsx to use hardcoded redirect URL 'https://videopromt.com/auth/callback'. Removed old session_id handling from LoginPage. The callback page now processes session_id, creates user session, and redirects to dashboard or pricing checkout. Ready for testing with real Google OAuth flow."
 
   - task: "Video Projects CRUD API"
     implemented: true
