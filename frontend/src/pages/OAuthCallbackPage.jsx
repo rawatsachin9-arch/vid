@@ -36,8 +36,20 @@ const OAuthCallbackPage = () => {
           // Clean up URL
           window.location.hash = '';
           
-          // Navigate to dashboard
-          navigate('/dashboard', { replace: true });
+          // Check if user was trying to access pricing/checkout
+          const selectedPlan = localStorage.getItem('selectedPlan');
+          const selectedBilling = localStorage.getItem('selectedBilling');
+          
+          if (selectedPlan) {
+            // Clear stored plan data
+            localStorage.removeItem('selectedPlan');
+            localStorage.removeItem('selectedBilling');
+            // Redirect to pricing with checkout modal
+            window.location.href = `/#pricing?showCheckout=true&plan=${selectedPlan}&billing=${selectedBilling}`;
+          } else {
+            // Navigate to dashboard
+            navigate('/dashboard', { replace: true });
+          }
         } else {
           setError(result.error || 'Google login failed');
           setTimeout(() => navigate('/login'), 2000);
