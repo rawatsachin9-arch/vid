@@ -64,23 +64,23 @@ const DashboardPage = () => {
 
   return (
     <DashboardLayout>
-      <div className="max-w-4xl mx-auto space-y-8">
+      <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 px-4">
         {/* Welcome Section */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold font-heading">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading">
             Welcome back, <span className="gradient-text">{user?.name}!</span>
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-sm sm:text-base text-muted-foreground">
             Create professional videos in minutes with AI
           </p>
           
           {/* Quick Action Buttons */}
-          <div className="flex gap-4 justify-center mt-6">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-6">
             <Button
               onClick={() => navigate('/create-video')}
               variant="premium"
               size="lg"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 w-full sm:w-auto"
             >
               <Video className="w-5 h-5" />
               Create AI Video
@@ -89,7 +89,7 @@ const DashboardPage = () => {
               onClick={() => navigate('/video-library')}
               variant="outline"
               size="lg"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 w-full sm:w-auto"
             >
               <FileText className="w-5 h-5" />
               My Videos
