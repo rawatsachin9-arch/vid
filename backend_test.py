@@ -283,6 +283,81 @@ class BackendTester:
             print(f"❌ Project polling error: {e}")
             return False
     
+    async def test_image_accessibility(self):
+        """Test that generated image URLs are accessible via HTTP requests"""
+        if not self.project_id:
+            print("❌ No project ID available for image accessibility test")
+            return False
+            
+        print(f"\n🖼️ Testing Image Accessibility - Verify Images Are Accessible")
+        
+        try:
+            # Get the completed project
+            response = await self.client.get(
+                f"{API_BASE}/video/projects/{self.project_id}",
+                headers={"Authorization": f"Bearer {self.session_token}"}
+            )
+            
+            if response.status_code != 200:
+                print(f"❌ Failed to get project: {response.text}")
+                return False
+            
+            project = response.json()
+            scenes = project.get('scenes', [])
+            
+            if not scenes:
+                print(f"❌ No scenes to test")
+                return False
+            
+            # Test accessibility of first 2 image URLs as specified in review request
+            test_count = min(2, len(scenes))
+            accessible_count = 0
+            
+            for i in range(test_count):
+                scene = scenes[i]
+                image_url = scene.get('image_url', '')
+                
+                if not image_url or not (image_url.startswith('http://') or image_url.startswith('https://')):
+                    print(f"   Scene {i+1}: ❌ Invalid URL format: {image_url[:100]}")
+                    continue
+                
+                print(f"   Scene {i+1}: Testing {image_url[:100]}...")
+                
+                try:
+                    # Make HTTP GET request to verify image is accessible
+                    img_response = await self.client.get(image_url, timeout=30.0)
+                    
+                    if img_response.status_code == 200:
+                        content_type = img_response.headers.get('content-type', '')
+                        content_length = len(img_response.content)
+                        
+                        print(f"     ✅ Image accessible (Status: 200)")
+                        print(f"     ✅ Content-Type: {content_type}")
+                        print(f"     ✅ Content-Length: {content_length} bytes")
+                        
+                        if 'image' in content_type.lower():
+                            accessible_count += 1
+                        else:
+                            print(f"     ⚠️  Warning: Content-Type is not image format")
+                    else:
+                        print(f"     ❌ Image not accessible (Status: {img_response.status_code})")
+                        
+                except Exception as e:
+                    print(f"     ❌ Error accessing image: {e}")
+            
+            print(f"   Accessible images: {accessible_count}/{test_count}")
+            
+            if accessible_count == test_count:
+                print(f"✅ All tested images are accessible from their URLs")
+                return True
+            else:
+                print(f"❌ {test_count - accessible_count} images are not accessible")
+                return False
+                
+        except Exception as e:
+            print(f"❌ Image accessibility test error: {e}")
+            return False
+    
     async def test_get_all_projects(self):
         """Test GET /api/video/projects endpoint"""
         print("\n📋 Testing Get All Projects - GET /api/video/projects")
