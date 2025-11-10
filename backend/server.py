@@ -71,6 +71,11 @@ app.include_router(payu_routes.router, prefix="/api/payu", tags=["payu"])
 # Include AI Video routes
 app.include_router(ai_video_routes.router, tags=["ai-video"])
 
+# Mount static files for serving generated images
+static_dir = Path(__file__).parent / "static"
+static_dir.mkdir(exist_ok=True)
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
