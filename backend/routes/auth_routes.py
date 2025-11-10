@@ -320,13 +320,14 @@ class ResetPasswordRequest(BaseModel):
 
 @router.post('/forgot-password')
 async def forgot_password(request: ForgotPasswordRequest):
-    """Request password reset - generates a token"""
+    """Request password reset - generates a token and sends email"""
     try:
         # Find user by email
         user = await db.users.find_one({'email': request.email})
         
         if not user:
             # Don't reveal if email exists for security
+            # Still return success to prevent email enumeration
             return {
                 'success': True,
                 'message': 'If your email is registered, you will receive a password reset link'
@@ -348,12 +349,20 @@ async def forgot_password(request: ForgotPasswordRequest):
         }
         await db.password_resets.insert_one(reset_doc)
         
-        # In a real app, send email with reset link
-        # For now, return the token (in production, this should be sent via email)
+        # Send password reset email
+        try:
+            await send_password_reset_email(
+                to_email=request.email,
+                reset_token=reset_token,
+                user_name=user.get('name')
+            )
+        except Exception as email_error:
+            print(f"Failed to send email: {email_error}")
+            # Continue anyway - don't reveal email sending failure
+        
         return {
             'success': True,
-            'message': 'Password reset link sent to your email',
-            'reset_token': reset_token  # Remove this in production!
+            'message': 'If your email is registered, you will receive a password reset link'
         }
     
     except Exception as e:
