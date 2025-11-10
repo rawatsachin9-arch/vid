@@ -66,7 +66,9 @@ class CORSDomainTester:
         """Test actual login with domain origin"""
         print(f"\n🔐 Testing Login with: {origin}")
         
-        test_email = f"domaintest{int(time.time())}@example.com"
+        # Use domain-specific email to avoid collisions
+        domain_safe = origin.replace("://", "_").replace(".", "_").replace("/", "_")
+        test_email = f"domaintest{int(time.time())}_{domain_safe}@example.com"
         
         try:
             # First register a user
