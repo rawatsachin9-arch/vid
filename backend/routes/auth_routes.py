@@ -4,6 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 import os
 from datetime import datetime, timezone, timedelta
 from utils.auth import hash_password, verify_password, create_access_token, decode_access_token
+from utils.email import send_password_reset_email, send_password_changed_notification
 import httpx
 
 router = APIRouter()
