@@ -423,6 +423,19 @@ async def reset_password(request: ResetPasswordRequest):
             {'$set': {'used': True}}
         )
         
+        # Get user to send notification
+        user = await db.users.find_one({'email': email})
+        
+        # Send password changed notification email
+        try:
+            await send_password_changed_notification(
+                to_email=email,
+                user_name=user.get('name') if user else None
+            )
+        except Exception as email_error:
+            print(f"Failed to send confirmation email: {email_error}")
+            # Continue anyway - password was changed successfully
+        
         return {
             'success': True,
             'message': 'Password reset successfully'
