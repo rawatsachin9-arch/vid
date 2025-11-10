@@ -120,11 +120,15 @@ class AIVideoService:
                         print(f"✅ Image generated successfully: {image_url[:100]}...")
                         return image_url  # Return URL directly instead of converting to base64
                     
-                    # Fallback: Check if we have b64_json (not recommended due to size)
+                    # Handle b64_json format - convert to data URL but store reference instead of full data
                     elif "b64_json" in image_data and image_data["b64_json"]:
-                        print("⚠️  Received b64_json format - using placeholder due to MongoDB size limits")
-                        # Don't store base64 as it exceeds MongoDB 16MB document limit
-                        return "https://via.placeholder.com/1024x1024/cccccc/666666?text=B64+Format+Not+Supported"
+                        b64_data = image_data["b64_json"]
+                        print(f"✅ Image generated successfully (base64 format - {len(b64_data)} chars)")
+                        
+                        # Create a data URL - this is still a URL format, not raw base64
+                        # The frontend can handle data URLs directly without storing large data in MongoDB
+                        data_url = f"data:image/png;base64,{b64_data}"
+                        return data_url
                     else:
                         print(f"Unexpected response format: {list(image_data.keys())}")
                         return "https://via.placeholder.com/1024x1024/cccccc/666666?text=Unexpected+Format"
