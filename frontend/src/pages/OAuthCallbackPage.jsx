@@ -66,17 +66,17 @@ const OAuthCallbackPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background via-secondary/20 to-background">
-      <div className="text-center">
+      <div className="text-center px-4">
         {error ? (
           <div className="space-y-4">
-            <div className="text-destructive text-lg font-medium">{error}</div>
-            <p className="text-sm text-muted-foreground">Redirecting to login...</p>
+            <div className="text-destructive text-base sm:text-lg font-medium">{error}</div>
+            <p className="text-xs sm:text-sm text-muted-foreground">Redirecting to login...</p>
           </div>
         ) : (
           <div className="space-y-4">
-            <Loader2 className="w-12 h-12 animate-spin mx-auto text-primary" />
-            <p className="text-lg font-medium">Signing in with Google...</p>
-            <p className="text-sm text-muted-foreground">Please wait while we complete your authentication</p>
+            <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 animate-spin mx-auto text-primary" />
+            <p className="text-base sm:text-lg font-medium">Signing in with Google...</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">Please wait while we complete your authentication</p>
           </div>
         )}
       </div>
