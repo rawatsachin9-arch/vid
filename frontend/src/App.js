@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import SuccessPage from './pages/SuccessPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import OAuthCallbackPage from './pages/OAuthCallbackPage';
 import DashboardPage from './pages/DashboardPage';
 import VideoLibraryPage from './pages/VideoLibraryPage';
 import CreateVideoPage from './pages/CreateVideoPage';
