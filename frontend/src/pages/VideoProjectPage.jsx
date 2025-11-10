@@ -135,9 +135,9 @@ const VideoProjectPage = () => {
 
           {/* Error Message */}
           {project.status === 'failed' && (
-            <div className="bg-red-500/20 border border-red-500 rounded-2xl p-6 mb-8">
-              <h3 className="text-red-200 font-semibold text-lg mb-2">Generation Failed</h3>
-              <p className="text-red-200">{project.error_message || 'An unexpected error occurred'}</p>
+            <div className="bg-red-500/20 border border-red-500 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
+              <h3 className="text-red-200 font-semibold text-base sm:text-lg mb-2">Generation Failed</h3>
+              <p className="text-red-200 text-sm sm:text-base">{project.error_message || 'An unexpected error occurred'}</p>
             </div>
           )}
 
