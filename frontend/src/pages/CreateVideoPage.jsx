@@ -77,8 +77,8 @@ const CreateVideoPage = () => {
           <SubscriptionBanner />
 
           {/* Form */}
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 sm:p-6 md:p-8 border border-white/20">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               {/* Title Input */}
               <div>
                 <label className="block text-white text-sm font-semibold mb-2">
