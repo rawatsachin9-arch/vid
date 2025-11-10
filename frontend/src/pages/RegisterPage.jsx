@@ -16,7 +16,9 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   const handleGoogleSignup = () => {
-    const redirectUrl = encodeURIComponent(`${window.location.origin}/login`);
+    // Use videopromt.com domain for OAuth callback
+    const callbackUrl = 'https://videopromt.com/auth/callback';
+    const redirectUrl = encodeURIComponent(callbackUrl);
     window.location.href = `https://auth.emergentagent.com/?redirect=${redirectUrl}`;
   };
 
