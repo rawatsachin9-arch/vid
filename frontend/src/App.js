@@ -43,6 +43,7 @@ function App() {
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/auth/callback" element={<OAuthCallbackPage />} />
             
             {/* Payment Pages */}
             <Route path="/payment-success" element={<PaymentSuccessPage />} />
