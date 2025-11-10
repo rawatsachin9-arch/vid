@@ -345,18 +345,7 @@ class BackendTester:
             print(f"❌ Delete project test error: {e}")
             return False
     
-    async def cleanup_test_data(self):
-        """Clean up test user and session data"""
-        print("\n🧹 Cleaning up test data...")
-        
-        try:
-            # Delete test user and session
-            self.db.users.delete_many({'id': self.user_id})
-            self.db.user_sessions.delete_many({'user_id': self.user_id})
-            self.db.video_projects.delete_many({'user_id': self.user_id})
-            print("✅ Test data cleaned up")
-        except Exception as e:
-            print(f"❌ Cleanup error: {e}")
+    # No cleanup needed - using existing testuser@example.com account
     
     async def close(self):
         """Close HTTP client"""
