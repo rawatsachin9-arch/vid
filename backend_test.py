@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend API Testing for Pictory.ai-style AI Video Generation Platform
-Tests AI video generation, Google OAuth, and video projects CRUD operations
+Backend API Testing for AI Video Generation with Image URL Fix
+Focus: Testing that images are stored as URLs instead of base64 to avoid MongoDB 16MB limit
 """
 
 import asyncio
@@ -12,16 +12,16 @@ import os
 from datetime import datetime, timezone, timedelta
 from pymongo import MongoClient
 
-# Configuration
-BACKEND_URL = "http://localhost:8001"
+# Configuration - Use external URL from frontend/.env
+BACKEND_URL = "https://c-project-4.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 MONGO_URL = "mongodb://localhost:27017"
 DB_NAME = "test_database"
 
-# Test data
+# Test data - specific prompt from review request
 TEST_VIDEO_DATA = {
-    "title": "AI and Society Impact",
-    "input_text": "Create a short video about artificial intelligence and its impact on society."
+    "title": "Elephants in Savannah",
+    "input_text": "Elephants playing in the savannah"
 }
 
 class BackendTester:
