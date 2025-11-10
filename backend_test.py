@@ -178,16 +178,18 @@ class BackendTester:
             return False
     
     async def test_project_status_polling(self):
-        """Test GET /api/video/projects/{id} with status polling"""
+        """Test GET /api/video/projects/{id} with focus on Image URL Fix"""
         if not self.project_id:
             print("❌ No project ID available for polling")
             return False
             
-        print(f"\n📊 Testing Project Status Polling - GET /api/video/projects/{self.project_id}")
-        print("   Polling every 3 seconds until completion or timeout (120s)...")
+        print(f"\n📊 Testing Video Generation Progress - Focus: Image URL Fix")
+        print(f"   Project ID: {self.project_id}")
+        print("   Polling every 5 seconds until completion or timeout (120s)...")
+        print("   Expected status progression: pending → processing → generating_script → generating_images → completed")
         
         start_time = time.time()
-        timeout = 120  # 2 minutes timeout
+        timeout = 120  # 2 minutes timeout as specified in review request
         
         try:
             while time.time() - start_time < timeout:
@@ -208,34 +210,71 @@ class BackendTester:
                 
                 if status == 'completed':
                     print(f"✅ Video generation completed successfully!")
-                    print(f"   Scenes generated: {len(project.get('scenes', []))}")
-                    print(f"   Duration: {project.get('duration', 0)} seconds")
-                    print(f"   Thumbnail URL: {'✅ Set' if project.get('thumbnail_url') else '❌ Not set'}")
                     
-                    # Verify scenes have images
+                    # Critical verification: Check for MongoDB "document too large" errors
+                    if project.get('error_message'):
+                        print(f"❌ Error message found: {project['error_message']}")
+                        return False
+                    else:
+                        print(f"✅ No error messages - MongoDB document size issue resolved")
+                    
+                    # Verify scene structure
                     scenes = project.get('scenes', [])
-                    scenes_with_images = sum(1 for scene in scenes if scene.get('image_url'))
-                    print(f"   Scenes with images: {scenes_with_images}/{len(scenes)}")
+                    print(f"   Scenes generated: {len(scenes)}")
                     
-                    # Check scene structure
-                    if scenes:
-                        scene = scenes[0]
-                        print(f"   Sample scene structure:")
-                        print(f"     - Scene number: {scene.get('scene_number')}")
-                        print(f"     - Description: {scene.get('description', '')[:50]}...")
-                        print(f"     - Narration: {scene.get('narration', '')[:50]}...")
-                        print(f"     - Image prompt: {scene.get('image_prompt', '')[:50]}...")
-                        print(f"     - Image URL: {'✅ Base64 data' if scene.get('image_url', '').startswith('data:image') else '❌ Missing'}")
+                    if not scenes:
+                        print(f"❌ No scenes generated")
+                        return False
                     
-                    return True
+                    # Verify each scene has proper image URL (not base64, not placeholder)
+                    valid_scenes = 0
+                    for i, scene in enumerate(scenes):
+                        image_url = scene.get('image_url', '')
+                        
+                        # Check if image_url is valid HTTP/HTTPS URL
+                        is_valid_url = image_url.startswith('http://') or image_url.startswith('https://')
+                        is_not_placeholder = 'placeholder' not in image_url.lower()
+                        is_not_base64 = not image_url.startswith('data:')
+                        
+                        print(f"     Scene {i+1}:")
+                        print(f"       - Description: {scene.get('description', '')[:50]}...")
+                        print(f"       - Narration: {scene.get('narration', '')[:50]}...")
+                        print(f"       - Duration: {scene.get('duration', 0)}s")
+                        print(f"       - Image URL: {'✅ Valid HTTP/HTTPS' if is_valid_url else '❌ Invalid URL'}")
+                        print(f"       - Not Placeholder: {'✅ Real image' if is_not_placeholder else '❌ Placeholder'}")
+                        print(f"       - Not Base64: {'✅ URL format' if is_not_base64 else '❌ Base64 format'}")
+                        
+                        if is_valid_url and is_not_placeholder and is_not_base64:
+                            valid_scenes += 1
+                    
+                    print(f"   Valid scenes with proper image URLs: {valid_scenes}/{len(scenes)}")
+                    
+                    # Check thumbnail URL
+                    thumbnail_url = project.get('thumbnail_url', '')
+                    if thumbnail_url:
+                        is_valid_thumb = thumbnail_url.startswith('http://') or thumbnail_url.startswith('https://')
+                        print(f"   Thumbnail URL: {'✅ Valid' if is_valid_thumb else '❌ Invalid'}")
+                    
+                    # Overall success criteria
+                    if valid_scenes == len(scenes) and valid_scenes >= 3:
+                        print(f"✅ IMAGE URL FIX VERIFIED: All scenes have valid HTTP/HTTPS image URLs")
+                        return True
+                    else:
+                        print(f"❌ IMAGE URL FIX FAILED: {len(scenes) - valid_scenes} scenes have invalid URLs")
+                        return False
                     
                 elif status == 'failed':
                     error_msg = project.get('error_message', 'Unknown error')
                     print(f"❌ Video generation failed: {error_msg}")
+                    
+                    # Check if it's the MongoDB document size error we're trying to fix
+                    if 'document too large' in error_msg.lower() or '16mb' in error_msg.lower():
+                        print(f"❌ CRITICAL: MongoDB document size error still occurring!")
+                    
                     return False
                 
-                # Wait before next poll
-                await asyncio.sleep(3)
+                # Wait before next poll (5 seconds as specified in review request)
+                await asyncio.sleep(5)
             
             print(f"❌ Timeout reached ({timeout}s) - video generation did not complete")
             return False
