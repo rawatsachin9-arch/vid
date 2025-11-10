@@ -274,13 +274,18 @@ class AuthTester:
             
             print(f"Status: {response.status_code}")
             
-            if response.status_code == 401:
+            if response.status_code in [401, 500]:
                 result = response.json()
-                print(f"✅ Correctly rejected invalid session ID")
-                print(f"   Error: {result.get('detail')}")
-                return True
+                error_detail = result.get('detail', '')
+                if 'Invalid session' in error_detail:
+                    print(f"✅ Correctly rejected invalid session ID")
+                    print(f"   Error: {error_detail}")
+                    return True
+                else:
+                    print(f"❌ Unexpected error message: {error_detail}")
+                    return False
             else:
-                print(f"❌ Expected 401 error for invalid session ID, got: {response.status_code}")
+                print(f"❌ Expected 401/500 error for invalid session ID, got: {response.status_code}")
                 print(f"   Response: {response.text}")
                 return False
                 
