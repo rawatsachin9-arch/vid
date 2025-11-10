@@ -188,19 +188,19 @@ const VideoProjectPage = () => {
 
               {/* Video Stats */}
               {project.status === 'completed' && (
-                <div className="mt-8 bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div className="mt-6 sm:mt-8 bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-lg rounded-xl p-4 sm:p-6 border border-white/20">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
                     <div>
-                      <p className="text-gray-400 text-sm mb-1">Total Scenes</p>
-                      <p className="text-white text-2xl font-bold">{project.scenes.length}</p>
+                      <p className="text-gray-400 text-xs sm:text-sm mb-1">Total Scenes</p>
+                      <p className="text-white text-xl sm:text-2xl font-bold">{project.scenes.length}</p>
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm mb-1">Total Duration</p>
-                      <p className="text-white text-2xl font-bold">{project.duration}s</p>
+                      <p className="text-gray-400 text-xs sm:text-sm mb-1">Total Duration</p>
+                      <p className="text-white text-xl sm:text-2xl font-bold">{project.duration}s</p>
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm mb-1">Status</p>
-                      <p className="text-green-400 text-2xl font-bold">Completed</p>
+                      <p className="text-gray-400 text-xs sm:text-sm mb-1">Status</p>
+                      <p className="text-green-400 text-xl sm:text-2xl font-bold">Completed</p>
                     </div>
                   </div>
                 </div>
