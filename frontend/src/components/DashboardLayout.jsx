@@ -75,7 +75,7 @@ const DashboardLayout = ({ children }) => {
       </div>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-0 sm:px-4 py-6 sm:py-8">
         {children}
       </main>
     </div>
