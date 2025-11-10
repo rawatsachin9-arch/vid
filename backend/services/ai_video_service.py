@@ -187,7 +187,7 @@ class AIVideoService:
             
             # Return URL to the saved image
             # Use the backend URL to serve the static file
-            backend_url = os.getenv("BACKEND_URL", "https://c-project-4.preview.emergentagent.com")
+            backend_url = os.getenv("BACKEND_URL", "https://core.preview.emergentagent.com")
             image_url = f"{backend_url}/static/images/{filename}"
             
             return image_url

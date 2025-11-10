@@ -12,7 +12,7 @@ import os
 from datetime import datetime
 
 # Configuration - Use the actual backend URL from frontend/.env
-BACKEND_URL = "https://c-project-4.preview.emergentagent.com"
+BACKEND_URL = "https://core.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 VIDEOPROMT_ORIGIN = "https://videopromt.com"
 

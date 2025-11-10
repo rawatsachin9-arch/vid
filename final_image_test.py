@@ -12,7 +12,7 @@ from pymongo import MongoClient
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "https://c-project-4.preview.emergentagent.com"
+BACKEND_URL = "https://core.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 MONGO_URL = "mongodb://localhost:27017"
 DB_NAME = "test_database"

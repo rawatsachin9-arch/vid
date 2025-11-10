@@ -9,7 +9,7 @@ import httpx
 import time
 
 # Configuration
-BACKEND_URL = "https://c-project-4.preview.emergentagent.com"
+BACKEND_URL = "https://core.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 # Test all videopromt.com variations from CORS_ORIGINS
