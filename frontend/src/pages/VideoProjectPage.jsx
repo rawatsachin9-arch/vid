@@ -125,10 +125,10 @@ const VideoProjectPage = () => {
 
           {/* Progress Indicator */}
           {project.status !== 'completed' && project.status !== 'failed' && (
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 mb-8">
-              <div className="flex items-center justify-center space-x-4">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                <p className="text-white text-lg">AI is working on your video...</p>
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 sm:p-6 border border-white/20 mb-6 sm:mb-8">
+              <div className="flex items-center justify-center space-x-3 sm:space-x-4">
+                <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-white"></div>
+                <p className="text-white text-sm sm:text-base md:text-lg">AI is working on your video...</p>
               </div>
             </div>
           )}
