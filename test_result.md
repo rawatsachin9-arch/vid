@@ -507,10 +507,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "JWT Authentication System"
     - "AI Video Generation API"
-    - "Google OAuth Integration"
     - "Video Projects CRUD API"
+    - "PayU Payment Integration"
     - "Create Video Page"
     - "Video Project Page"
     - "Video Library Page"
