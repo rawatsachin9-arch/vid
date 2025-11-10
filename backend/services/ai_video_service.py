@@ -99,8 +99,8 @@ class AIVideoService:
                         "model": "gpt-image-1",
                         "prompt": image_prompt,
                         "n": 1,
-                        "quality": "low"
-                        # Note: response_format not supported by Emergent API for gpt-image-1
+                        "quality": "low",
+                        "response_format": "url"  # Try to get URLs instead of base64
                     }
                 )
                 
