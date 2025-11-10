@@ -127,7 +127,7 @@ const DashboardPage = () => {
             {/* Video Length */}
             <div className="space-y-2">
               <label className="text-sm font-medium">Video Length</label>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 {[
                   { value: 'short', label: 'Short (30s)', desc: '100-150 words' },
                   { value: 'medium', label: 'Medium (1m)', desc: '200-300 words' },
