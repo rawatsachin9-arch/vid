@@ -307,3 +307,118 @@ async def logout(request: Request, response: Response):
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'Logout failed: {str(e)}')
+
+
+# Password Reset Models
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str
+
+@router.post('/forgot-password')
+async def forgot_password(request: ForgotPasswordRequest):
+    """Request password reset - generates a token"""
+    try:
+        # Find user by email
+        user = await db.users.find_one({'email': request.email})
+        
+        if not user:
+            # Don't reveal if email exists for security
+            return {
+                'success': True,
+                'message': 'If your email is registered, you will receive a password reset link'
+            }
+        
+        # Generate reset token (using JWT with 15 min expiry)
+        reset_token = create_access_token(
+            data={'sub': request.email, 'type': 'password_reset'},
+            expires_delta=timedelta(minutes=15)
+        )
+        
+        # Store reset token in database with expiry
+        reset_doc = {
+            'email': request.email,
+            'token': reset_token,
+            'used': False,
+            'created_at': datetime.now(timezone.utc),
+            'expires_at': datetime.now(timezone.utc) + timedelta(minutes=15)
+        }
+        await db.password_resets.insert_one(reset_doc)
+        
+        # In a real app, send email with reset link
+        # For now, return the token (in production, this should be sent via email)
+        return {
+            'success': True,
+            'message': 'Password reset link sent to your email',
+            'reset_token': reset_token  # Remove this in production!
+        }
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Failed to process request: {str(e)}')
+
+@router.post('/reset-password')
+async def reset_password(request: ResetPasswordRequest):
+    """Reset password using token"""
+    try:
+        # Verify token
+        payload = decode_access_token(request.token)
+        
+        if not payload or payload.get('type') != 'password_reset':
+            raise HTTPException(status_code=400, detail='Invalid or expired reset token')
+        
+        email = payload.get('sub')
+        
+        # Check if token exists in database and is not used
+        reset_doc = await db.password_resets.find_one({
+            'email': email,
+            'token': request.token,
+            'used': False
+        })
+        
+        if not reset_doc:
+            raise HTTPException(status_code=400, detail='Invalid or already used reset token')
+        
+        # Check if token expired
+        expires_at = reset_doc['expires_at']
+        if expires_at.tzinfo is None:
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
+        
+        if expires_at < datetime.now(timezone.utc):
+            raise HTTPException(status_code=400, detail='Reset token has expired')
+        
+        # Validate new password
+        if len(request.new_password) < 6:
+            raise HTTPException(status_code=400, detail='Password must be at least 6 characters')
+        
+        # Update user password
+        hashed_password = hash_password(request.new_password)
+        result = await db.users.update_one(
+            {'email': email},
+            {
+                '$set': {
+                    'password': hashed_password,
+                    'updated_at': datetime.now(timezone.utc).isoformat()
+                }
+            }
+        )
+        
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail='User not found')
+        
+        # Mark token as used
+        await db.password_resets.update_one(
+            {'token': request.token},
+            {'$set': {'used': True}}
+        )
+        
+        return {
+            'success': True,
+            'message': 'Password reset successfully'
+        }
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Failed to reset password: {str(e)}')
