@@ -82,10 +82,9 @@ class AIVideoService:
     async def generate_image_for_scene(self, image_prompt: str) -> str:
         """
         Generate an image for a scene using gpt-image-1 via Emergent LLM Key
-        Returns base64-encoded image data URL
+        Returns image URL directly (not base64 to avoid MongoDB 16MB document limit)
         
-        Bypasses emergentintegrations library to call API directly due to library bug
-        with b64_json response format handling
+        Calls Emergent API directly and returns the hosted image URL
         """
         try:
             # Call the Emergent image generation API directly
