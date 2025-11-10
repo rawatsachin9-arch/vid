@@ -437,37 +437,57 @@ class BackendTester:
         await self.client.aclose()
 
 async def run_backend_tests():
-    """Run all backend tests"""
-    print("🚀 Starting Backend API Tests for AI Video Generation Platform")
+    """Run focused tests for AI Video Generation with Image URL Fix"""
+    print("🚀 Testing AI Video Generation with Image URL Fix")
+    print("=" * 70)
+    print("Focus: Verify images stored as URLs instead of base64 to avoid MongoDB 16MB limit")
     print("=" * 70)
     
     tester = BackendTester()
     test_results = {}
     
     try:
-        # Setup
-        await tester.setup_test_user()
+        # Test 1: Login with testuser@example.com / password123
+        print("\n" + "="*50)
+        print("TEST 1: Create New Video Project")
+        print("="*50)
+        test_results['jwt_login'] = await tester.test_jwt_login()
         
-        # Authentication Tests
-        test_results['auth_session_me'] = await tester.test_auth_session_me()
-        test_results['google_oauth_session'] = await tester.test_google_oauth_session()
+        if not test_results['jwt_login']:
+            print("❌ Cannot proceed without authentication")
+            return test_results
         
-        # AI Video Generation Tests
+        # Test 2: Create video project with specific prompt
         test_results['video_generation'] = await tester.test_video_generation()
+        
+        if not test_results['video_generation']:
+            print("❌ Cannot proceed without video project")
+            return test_results
+        
+        # Test 3: Monitor video generation progress
+        print("\n" + "="*50)
+        print("TEST 2: Monitor Video Generation Progress")
+        print("="*50)
         test_results['project_status_polling'] = await tester.test_project_status_polling()
         
-        # Video Projects CRUD Tests
-        test_results['get_all_projects'] = await tester.test_get_all_projects()
-        test_results['delete_project'] = await tester.test_delete_project()
+        # Test 4: Verify image accessibility
+        print("\n" + "="*50)
+        print("TEST 3: Verify Generated Content")
+        print("="*50)
+        test_results['image_accessibility'] = await tester.test_image_accessibility()
         
-        # Auth Tests (continued)
-        test_results['logout'] = await tester.test_logout()
+        # Additional verification
+        print("\n" + "="*50)
+        print("TEST 4: Verify Images Are Accessible")
+        print("="*50)
+        test_results['get_all_projects'] = await tester.test_get_all_projects()
         
     except Exception as e:
         print(f"\n❌ Critical test error: {e}")
+        import traceback
+        traceback.print_exc()
     
     finally:
-        await tester.cleanup_test_data()
         await tester.close()
     
     # Summary
